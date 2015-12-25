@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "ion-gallery": "~0.1.11",
-    "moment": "~2.10.6"
+    "moment": "~2.10.6",
+    "ngCordova": "~0.1.23-alpha"
   }
 }

@@ -30,15 +30,18 @@ app.factory('PostService', function() {
       {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '太牛逼了'
+        content: '太牛逼了',
+        created_at: "2015-12-23T04:01:18.828Z"
       }, {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '赞一个'
+        content: '赞一个',
+        created_at: "2015-12-23T04:01:18.828Z"
       }, {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '梁山圈不孬'
+        content: '梁山圈不孬',
+        created_at: "2015-12-23T04:01:18.828Z"
       }
     ]
   }, {
@@ -67,15 +70,18 @@ app.factory('PostService', function() {
       {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '太牛逼了'
+        content: '太牛逼了',
+        created_at: "2015-12-23T04:01:18.828Z"
       }, {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '赞一个'
+        content: '赞一个',
+        created_at: "2015-12-23T04:01:18.828Z"
       }, {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '梁山圈不孬'
+        content: '梁山圈不孬',
+        created_at: "2015-12-23T04:01:18.828Z"
       }
     ]
   }, {
@@ -104,15 +110,18 @@ app.factory('PostService', function() {
       {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '太牛逼了'
+        content: '太牛逼了',
+        created_at: "2015-12-23T04:01:18.828Z"
       }, {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '赞一个'
+        content: '赞一个',
+        created_at: "2015-12-23T04:01:18.828Z"
       }, {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '梁山圈不孬'
+        content: '梁山圈不孬',
+        created_at: "2015-12-23T04:01:18.828Z"
       }
     ]
   }, {
@@ -141,15 +150,18 @@ app.factory('PostService', function() {
       {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '太牛逼了'
+        content: '太牛逼了',
+        created_at: "2015-12-23T04:01:18.828Z"
       }, {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '赞一个'
+        content: '赞一个',
+        created_at: "2015-12-23T04:01:18.828Z"
       }, {
         uid: "567a11bc6d7ca1142e8e2640",
         username: "michael@bond.co",
-        comment: '梁山圈不孬'
+        content: '梁山圈不孬',
+        created_at: "2015-12-23T04:01:18.828Z"
       }
     ]
   }];

@@ -16,8 +16,14 @@
         </div>
         <div>
           <a class="button button-icon icon ion-ios-heart-outline" ng-click="addLike(post)">{{post.likes.length}}</a>
-          <a class="button button-icon icon ion-ios-chatbubble-outline">{{post.comments.length}}</a>
+          <a class="button button-icon icon ion-ios-chatbubble-outline" ng-click="toggleComments(post)">{{post.comments.length}}</a>
         </div>
+        <ion-list ng-show="post.showComments">
+          <ion-item ng-repeat="comment in post.comments">
+            {{comment.content}}
+          </ion-item>
+          <input type="text" placeholder="说两句呗..." ng-enter="addComment(post)" ng-model="post.newComment">
+        </ion-list>
       </div>
     </div>
   </ion-content>

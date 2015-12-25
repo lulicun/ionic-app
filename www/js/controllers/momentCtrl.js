@@ -1,7 +1,5 @@
 'use strict';
 
-app.controller('MomentCtrl', ['$scope',
-    function($scope) {
-        console.log("moment controller");
-    }
-]);
+app.controller('MomentCtrl', function($scope, PostService) {
+    $scope.posts = PostService.all();
+});

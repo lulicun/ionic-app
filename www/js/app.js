@@ -1,5 +1,5 @@
 // Ionic Starter App
-app = angular.module('node-ionic', ['ionic'])
+app = angular.module('node-ionic', ['ionic', 'ion-gallery'])
 
 app.run(function($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function() {
@@ -16,7 +16,7 @@ app.run(function($ionicPlatform, $rootScope) {
     }
   });
 
-  $rootScope.isLoggedIn = true;
+  $rootScope.isLoggedIn = false;
 })
 
 app.config(function($stateProvider, $urlRouterProvider) {
@@ -26,6 +26,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/sign-in',
       templateUrl: 'templates/sign-in.html',
       controller: 'SignInCtrl'
+    })
+    .state('signup', {
+      url: '/sign-up',
+      templateUrl: 'templates/sign-up.html',
+      controller: 'SignUpCtrl'
+    })
+    .state('forgotpassword', {
+      url: '/forgot-password',
+      templateUrl: 'templates/forgot-password.html',
+      controller: 'ForgotPasswordCtrl'
     })
     .state('tab', {
       url: '/tab',
@@ -72,5 +82,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/moment');
+
+  moment.locale('zh-cn');
 
 });

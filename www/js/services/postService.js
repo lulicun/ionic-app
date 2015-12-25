@@ -13,7 +13,34 @@ app.factory('PostService', function() {
       uid: "567a11bc6d7ca1142e8e2640",
       username: "michael@bond.co",
       face: 'img/ben.png'
-    }
+    },
+    likes: [
+      {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }
+    ],
+    comments: [
+      {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '太牛逼了'
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '赞一个'
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '梁山圈不孬'
+      }
+    ]
   }, {
     content: "hello emily",
     created_at: moment(new Date("2015-12-23T04:01:18.828Z")).fromNow(),
@@ -23,7 +50,34 @@ app.factory('PostService', function() {
       uid: "567a11bc6d7ca1142e8e2640",
       username: "michael@bond.co",
       face: 'img/max.png'
-    }
+    },
+    likes: [
+      {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }
+    ],
+    comments: [
+      {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '太牛逼了'
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '赞一个'
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '梁山圈不孬'
+      }
+    ]
   }, {
     content: "hello melody",
     created_at: moment(new Date("2015-12-24T22:01:18.828Z")).fromNow(),
@@ -33,7 +87,34 @@ app.factory('PostService', function() {
       uid: "567a11bc6d7ca1142e8e2640",
       username: "michael@bond.co",
       face: 'img/perry.png'
-    }
+    },
+    likes: [
+      {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }
+    ],
+    comments: [
+      {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '太牛逼了'
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '赞一个'
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '梁山圈不孬'
+      }
+    ]
   }, {
     content: "hello mat",
     created_at: moment(new Date("2015-11-24T04:01:18.828Z")).fromNow(),
@@ -43,7 +124,34 @@ app.factory('PostService', function() {
       uid: "567a11bc6d7ca1142e8e2640",
       username: "michael@bond.co",
       face: 'img/perry.png'
-    }
+    },
+    likes: [
+      {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co"
+      }
+    ],
+    comments: [
+      {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '太牛逼了'
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '赞一个'
+      }, {
+        uid: "567a11bc6d7ca1142e8e2640",
+        username: "michael@bond.co",
+        comment: '梁山圈不孬'
+      }
+    ]
   }];
 
   return {

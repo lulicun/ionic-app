@@ -12,8 +12,12 @@
         <div>
           {{post.content}}
           <ion-gallery ion-gallery-items="post.images"></ion-gallery>
+          <p><small>{{post.created_at}}</small></p>
         </div>
-        {{post.created_at}}
+        <div>
+          <a class="button button-icon icon ion-ios-heart-outline" ng-click="addLike(post)">{{post.likes.length}}</a>
+          <a class="button button-icon icon ion-ios-chatbubble-outline">{{post.comments.length}}</a>
+        </div>
       </div>
     </div>
   </ion-content>

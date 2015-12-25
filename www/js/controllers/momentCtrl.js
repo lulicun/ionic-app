@@ -3,26 +3,6 @@
 app.controller('MomentCtrl', function($scope, $ionicActionSheet, PostService) {
 	$scope.posts = PostService.all();
 
-	var hideSheet = null;
-
-	$scope.addPost = function() {
-		hideSheet = $ionicActionSheet.show({
-     buttons: [
-       { text: '<b>Share</b> This' },
-       { text: 'Move' }
-     ],
-     destructiveText: 'Delete',
-     titleText: 'Modify your album',
-     cancelText: 'Cancel',
-     cancel: function() {
-          // add cancel code..
-        },
-     buttonClicked: function(index) {
-       return true;
-     }
-   });
-	};
-
 	$scope.addLike = function(post) {
 		console.log(post);
 		post.likes.push({uid: '123', username: 'hello'});

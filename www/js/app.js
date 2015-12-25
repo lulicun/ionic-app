@@ -51,7 +51,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-
+    .state('tab.moment-create', {
+      url: '/moment/create',
+      views: {
+        'tab-moment': {
+          templateUrl: 'templates/moment-create.html',
+          controller: 'MomentCreateCtrl'
+        }
+      }
+    })
     .state('tab.chats', {
       url: '/chats',
       views: {

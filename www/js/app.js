@@ -1,5 +1,5 @@
 // Ionic Starter App
-app = angular.module('node-ionic', ['ionic', 'ion-gallery', 'ngCordova'])
+app = angular.module('ionic-app', ['ionic', 'ion-gallery', 'ngCordova'])
 
 app.run(function($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function() {

@@ -22,6 +22,8 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 			buttonClicked: function(index) {
 				console.log(index);
 				if (index === 0) {
+					openPhotoCamera();
+				} else {
 					openPhotoLibrary();
 				}
 				return true;
@@ -29,7 +31,8 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 		});
 	};
 
-	var openPhotoLibrary = function() {
+	$scope.images = [];
+	var openPhotoCamera = function() {
 		var options = {
 			quality : 75,
 			destinationType : Camera.DestinationType.DATA_URL,
@@ -41,9 +44,26 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 			popoverOptions: CameraPopoverOptions,
 			saveToPhotoAlbum: false
 		};
+		getPicture(options);
+	};
 
+	var openPhotoLibrary = function() {
+		window.imagePicker.getPictures(function(results) {
+			for (var i = 0; i < results.length; i++) {
+				console.log('Image URI: ' + results[i]);
+				$scope.images.push(results[i]);
+			}
+			if(!$scope.$$phase) {
+				$scope.$apply();
+			}
+		}, function (error) {
+			console.log('Error: ' + error);
+		});
+	};
+
+	var getPicture = function(options) {
 		$cordovaCamera.getPicture(options).then(function(imageData) {
-			$scope.imgURI = "data:image/jpeg;base64," + imageData;
+			$scope.images.push("data:image/jpeg;base64," + imageData);
 		}, function(err) {
 			// An error occured. Show a message to the user
 		});
@@ -78,5 +98,6 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 				// }, function (progress) {
 				//     // constant progress updates
 				// });
-	}
+	};
+
 });

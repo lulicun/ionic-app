@@ -1,4 +1,4 @@
-node-ionic
+ionic-app
 =====================
 
 build an mobile app by ionic

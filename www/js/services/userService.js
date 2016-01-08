@@ -13,6 +13,18 @@ app.factory('UserService', function($http, $q) {
             reject(data);
           });
       });
+    },
+
+    signIn: function(data) {
+      return $q(function(resolve, reject) {
+        $http.post('http://localhost:8090/signin', data)
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
     }
   };
 });

@@ -9,20 +9,19 @@ app.controller('SignUpCtrl', function($scope, $rootScope, $state, $ionicLoading,
     $scope.signUp = function(user) {
         $scope.errorMsg = false;
         $ionicLoading.show({
-          template: 'Loading...'
+          template: '注册着哩，求其一等...'
         });
         UserService.signUp({
             username: user.username,
             password: user.password,
             nickname: user.nickname
         }).then(function(result) {
-            console.log(result);
             $scope.success = true;
             $ionicLoading.hide();
             $rootScope.username = result.user.username;
             setTimeout(function() {
                 $state.go('signin');
-            }, 2000);
+            }, 1000);
         }, function(error) {
             switch(error.code) {
                 case 409:

@@ -1,7 +1,7 @@
 // Ionic Starter App
 app = angular.module('ionic-app', ['ionic', 'ion-gallery', 'ngCordova'])
 
-app.run(function($ionicPlatform, $rootScope, $cordovaPush) {
+app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localstorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -15,9 +15,6 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush) {
       StatusBar.styleDefault();
     }
   });
-
-  $rootScope.isLoggedIn = false;
-
 
   document.addEventListener("deviceready", function(){
     var push = PushNotification.init({
@@ -56,7 +53,11 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush) {
     });
   }, false);
 
-
+  if ($localstorage.getObject('keys')) {
+    $rootScope.isLoggedIn = true;
+  } else {
+    $rootScope.isLoggedIn = false;
+  }
 
 })
 

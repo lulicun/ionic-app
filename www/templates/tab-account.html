@@ -1,11 +1,33 @@
-<ion-view view-title="Account">
+<ion-view view-title="己家哩账户">
   <ion-content>
+    <div align="center" style="margin: 20px;">
+        <div ng-click="addImages()" style="width: 80px; height: 80px; border: 1px solid grey;">
+        <i class="icon ion-happy-outline" ng-show="!user.face" style="font-size: 80px;"></i>
+        <img ng-src="{{user.face}}" style="width: 80px; height: 80px" ng-show="user.face">
+        </div>
+    </div>
+
     <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
+        <label class="item item-input">
+            <span class="input-label">昵称</span>
+            <input type="text" placeholder="宁宁" style="text-align:right;">
+        </label>
+        <label class="item item-input">
+            <span class="input-label">邮箱</span>
+            <input type="text" placeholder="宁宁" style="text-align:right;">
+        </label>
+        <label class="item item-input">
+            <span class="input-label">电话</span>
+            <input type="text" placeholder="宁宁" style="text-align:right;">
+        </label>
+        <ion-toggle  ng-model="settings.enableFriends">
+            公开我的信息
+        </ion-toggle>
     </ion-list>
-
-
+    <div style="margin-top: 50px">
+        <button class="button button-full button-assertive">
+            退出
+        </button>
+    </div>
   </ion-content>
 </ion-view>

@@ -2,30 +2,34 @@
   <ion-content>
     <div align="center" style="margin: 20px;">
         <div ng-click="addImages()" style="width: 80px; height: 80px; border: 1px solid grey;">
-        <i class="icon ion-happy-outline" ng-show="!user.face" style="font-size: 80px;"></i>
-        <img ng-src="{{user.face}}" style="width: 80px; height: 80px" ng-show="user.face">
+        <i class="icon ion-happy-outline" ng-show="!account.face" style="font-size: 80px;"></i>
+        <img ng-src="{{account.face}} " style="width: 80px; height: 80px" ng-show="account.face">
         </div>
     </div>
-
-    <ion-list>
-        <label class="item item-input">
-            <span class="input-label">昵称</span>
-            <input type="text" placeholder="宁宁" style="text-align:right;">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">邮箱</span>
-            <input type="text" placeholder="宁宁" style="text-align:right;">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">电话</span>
-            <input type="text" placeholder="宁宁" style="text-align:right;">
-        </label>
-        <ion-toggle  ng-model="settings.enableFriends">
-            公开我的信息
-        </ion-toggle>
-    </ion-list>
+    <form name="accountForm">
+        <ion-list>
+            <label class="item item-input" ng-class="{'input-error': !accountForm.nickname.$valid}">
+                <span class="input-label">昵称</span>
+                <input type="text" name="nickname" style="text-align:right;" ng-model="account.nickname" ng-minlength="1" ng-maxlength="10" ng-blur="updateNickname(accountForm)" required>
+            </label>
+            <label class="item item-input" ng-class="{'input-error': !accountForm.email.$valid}">
+                <span class="input-label">邮箱</span>
+                <input type="email" name="email" placeholder="填了没啥坏处，还方便找回密码" style="text-align:right;" ng-model="account.email" ng-blur="updateEmail(accountForm)">
+            </label>
+            <label class="item item-input" ng-class="{'input-error': !accountForm.phone.$valid}">
+                <span class="input-label">电话</span>
+                <input type="text" name="phone" placeholder="填了没啥坏处，还方便联系你" style="text-align:right;" ng-model="account.phone" ng-minlength="11" ng-maxlength="11" ng-blur="updatePhone(accountForm)">
+            </label>
+            <!-- <ion-toggle  ng-model="settings.enableFriends">
+                公开我的信息
+            </ion-toggle> -->
+        </ion-list>
+    </form>
+    <div ng-show="errorMsg" align="center" style="color: red">
+      <i class="icon ion-close-circled"></i>{{errorMsg}}
+    </div>
     <div style="margin-top: 50px">
-        <button class="button button-full button-assertive">
+        <button class="button button-full button-assertive" ng-click="signOut()">
             退出
         </button>
     </div>

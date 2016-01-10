@@ -1,7 +1,7 @@
 // Ionic Starter App
 app = angular.module('ionic-app', ['ionic', 'ion-gallery', 'ngCordova'])
 
-app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localstorage) {
+app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -53,7 +53,9 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localstorage) {
     });
   }, false);
 
-  if ($localstorage.getObject('keys')) {
+  if ($localStorage.getObject('keys')) {
+    $rootScope.keys = $localStorage.getObject('keys');
+    $rootScope.user = $localStorage.getObject('user');
     $rootScope.isLoggedIn = true;
   } else {
     $rootScope.isLoggedIn = false;

@@ -7,10 +7,10 @@ app.controller('AccountCtrl', function($scope, $rootScope, $state, $ionicActionS
 		enableFriends: true
 	};
 
-	var hideSheet = null;
+	var hideImageOptionSheet = null;
 	$scope.addImages = function() {
 		console.log("add images ...");
-		hideSheet = $ionicActionSheet.show({
+		hideImageOptionSheet = $ionicActionSheet.show({
 			buttons: [
 				{ text: '拍照' },
 				{ text: '从手机相册选择' }
@@ -22,7 +22,6 @@ app.controller('AccountCtrl', function($scope, $rootScope, $state, $ionicActionS
 				// add cancel code..
 			},
 			buttonClicked: function(index) {
-				console.log(index);
 				if (index === 0) {
 					openPhotoCamera();
 				} else {
@@ -33,14 +32,31 @@ app.controller('AccountCtrl', function($scope, $rootScope, $state, $ionicActionS
 		});
 	}
 
+	var hideSignOutSheet = null;
 	$scope.signOut = function() {
-		$rootScope.isLoggedIn = false;
-		$rootScope.user = undefined;
-		$rootScope.keys = undefined;
-		$localStorage.clear();
-		$ionicHistory.clearCache();
-		$ionicHistory.clearHistory();
-		$state.go('tab.moment');
+		hideSignOutSheet = $ionicActionSheet.show({
+			buttons: [],
+			destructiveText: '退出',
+			titleText: '走哩！',
+			cancelText: '取消',
+			cancel: function() {
+				// add cancel code..
+			},
+			buttonClicked: function(index) {
+				return true;
+			},
+			destructiveButtonClicked: function() {
+				$rootScope.isLoggedIn = false;
+				$rootScope.user = undefined;
+				$rootScope.keys = undefined;
+				$localStorage.clear();
+				$ionicHistory.clearCache();
+				$ionicHistory.clearHistory();
+				$state.go('tab.moment');
+				return true;
+			}
+		});
+
 	}
 
 	$scope.updateNickname = function(accountForm) {

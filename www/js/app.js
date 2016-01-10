@@ -16,42 +16,42 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage) {
     }
   });
 
-  document.addEventListener("deviceready", function(){
-    var push = PushNotification.init({
-        android: {
-            senderID: "12345679"
-        },
-        ios: {
-            alert: "true",
-            badge: "true",
-            sound: "true"
-        },
-        windows: {}
-    });
+  // document.addEventListener("deviceready", function(){
+  //   var push = PushNotification.init({
+  //       android: {
+  //           senderID: "12345679"
+  //       },
+  //       ios: {
+  //           alert: "true",
+  //           badge: "true",
+  //           sound: "true"
+  //       },
+  //       windows: {}
+  //   });
 
 
 
-    push.on('registration', function(data) {
-        // data.registrationId
-        console.log(data);
-        alert(data.registrationId);
-    });
+  //   push.on('registration', function(data) {
+  //       // data.registrationId
+  //       console.log(data);
+  //       alert(data.registrationId);
+  //   });
 
-    push.on('notification', function(data) {
-      console.log(data);
-      // data.message,
-      // data.title,
-      // data.count,
-      // data.sound,
-      // data.image,
-      // data.additionalData
-    });
+  //   push.on('notification', function(data) {
+  //     console.log(data);
+  //     // data.message,
+  //     // data.title,
+  //     // data.count,
+  //     // data.sound,
+  //     // data.image,
+  //     // data.additionalData
+  //   });
 
-    push.on('error', function(e) {
-      console.log(e.message);
-        // e.message
-    });
-  }, false);
+  //   push.on('error', function(e) {
+  //     console.log(e.message);
+  //       // e.message
+  //   });
+  // }, false);
 
   if ($localStorage.getObject('keys')) {
     $rootScope.keys = $localStorage.getObject('keys');

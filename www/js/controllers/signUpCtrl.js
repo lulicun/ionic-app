@@ -7,6 +7,7 @@ app.controller('SignUpCtrl', function($scope, $rootScope, $state, $ionicLoading,
     });
 
     $scope.signUp = function(user) {
+        cordova.plugins.Keyboard.close();
         $scope.errorMsg = false;
         $ionicLoading.show({
           template: '注册着哩，求其一等...'

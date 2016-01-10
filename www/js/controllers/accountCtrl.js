@@ -35,6 +35,8 @@ app.controller('AccountCtrl', function($scope, $rootScope, $state, $ionicActionS
 
 	$scope.signOut = function() {
 		$rootScope.isLoggedIn = false;
+		$rootScope.user = undefined;
+		$rootScope.keys = undefined;
 		$localStorage.clear();
 		$ionicHistory.clearCache();
 		$ionicHistory.clearHistory();

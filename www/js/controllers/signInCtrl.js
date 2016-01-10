@@ -24,10 +24,12 @@ app.controller('SignInCtrl', function($scope, $rootScope, $ionicLoading, $localS
 
 			$localStorage.setObject('keys', result.keys);
 			$localStorage.setObject('user', result.user);
+			$rootScope.user = result.user;
+			$rootScope.keys = result.keys;
 
-			$ionicLoading.hide();
 			$rootScope.isLoggedIn = true;
 			setTimeout(function() {
+				$ionicLoading.hide();
 				$state.go('tab.moment');
 			}, 1000);
 		}, function(error) {

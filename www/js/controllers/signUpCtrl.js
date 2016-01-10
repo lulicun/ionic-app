@@ -17,9 +17,9 @@ app.controller('SignUpCtrl', function($scope, $rootScope, $state, $ionicLoading,
             nickname: user.nickname
         }).then(function(result) {
             $scope.success = true;
-            $ionicLoading.hide();
             $rootScope.username = result.user.username;
             setTimeout(function() {
+                $ionicLoading.hide();
                 $state.go('signin');
             }, 1000);
         }, function(error) {

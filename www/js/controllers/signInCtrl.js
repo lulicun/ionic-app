@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('SignInCtrl', function($scope, $rootScope, $ionicLoading, $localstorage, $state, UserService) {
+app.controller('SignInCtrl', function($scope, $rootScope, $ionicLoading, $localStorage, $state, UserService) {
 
 	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
 		viewData.enableBack = true;
@@ -21,11 +21,10 @@ app.controller('SignInCtrl', function($scope, $rootScope, $ionicLoading, $locals
 			password: user.password
 		}).then(function(result) {
 			$scope.success = true;
-			$localstorage.setObject('keys', {
-				uid: result.keys.uid,
-				pk: result.keys.pk,
-				sk: result.keys.sk
-			});
+
+			$localStorage.setObject('keys', result.keys);
+			$localStorage.setObject('user', result.user);
+
 			$ionicLoading.hide();
 			$rootScope.isLoggedIn = true;
 			setTimeout(function() {

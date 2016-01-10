@@ -1,11 +1,11 @@
 'use strict';
 // TODO: hard code api endpoint for now, MOVE that into config file
-app.factory('UserService', function($http, $q, $rootScope) {
+app.factory('UserService', function($http, $q, $rootScope, Config) {
 
   return {
     signUp: function(data) {
       return $q(function(resolve, reject) {
-        $http.post('http://localhost:8090/signup', data)
+        $http.post(Config.apiEndpoint() + 'signup', data)
           .success(function(data, status, headers, config) {
             resolve(data);
           })
@@ -17,7 +17,7 @@ app.factory('UserService', function($http, $q, $rootScope) {
 
     signIn: function(data) {
       return $q(function(resolve, reject) {
-        $http.post('http://localhost:8090/signin', data)
+        $http.post(Config.apiEndpoint() + 'signin', data)
         .success(function(data, status, headers, config) {
           resolve(data);
         })
@@ -29,7 +29,7 @@ app.factory('UserService', function($http, $q, $rootScope) {
 
     update: function(query, data) {
       return $q(function(resolve, reject) {
-        $http.put('http://localhost:8090/api/v1/users/' + query,
+        $http.put(Config.apiEndpoint() + 'api/v1/users/' + query,
           data,
           {
             headers: {

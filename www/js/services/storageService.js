@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('$localstorage', function($window) {
+app.factory('$localStorage', function($window) {
 
   return {
     set: function(key, value) {
@@ -17,6 +17,9 @@ app.factory('$localstorage', function($window) {
         return false;
       }
       return JSON.parse($window.localStorage[key]);
+    },
+    clear: function() {
+      $window.localStorage.clear();
     }
   };
 });

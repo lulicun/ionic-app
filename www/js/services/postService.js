@@ -167,6 +167,9 @@ app.factory('PostService', function() {
   }];
 
   return {
+    create: function(post) {
+
+    },
     all: function() {
       return posts;
     },

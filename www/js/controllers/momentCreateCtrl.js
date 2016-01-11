@@ -1,7 +1,9 @@
 'use strict';
 
-app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaCamera) {
+app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaCamera, PostService) {
+	$scope.post = {content: '', images: []};
 	$scope.createMoment = function() {
+		console.log($scope.post);
 		console.log("Creating moment");
 	};
 
@@ -31,7 +33,6 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 		});
 	};
 
-	$scope.images = [];
 	var openPhotoCamera = function() {
 		var options = {
 			quality : 75,
@@ -51,7 +52,7 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 		window.imagePicker.getPictures(function(results) {
 			for (var i = 0; i < results.length; i++) {
 				console.log('Image URI: ' + results[i]);
-				$scope.images.push(results[i]);
+				$scope.post.images.push(results[i]);
 			}
 			if(!$scope.$$phase) {
 				$scope.$apply();
@@ -63,7 +64,7 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 
 	var getPicture = function(options) {
 		$cordovaCamera.getPicture(options).then(function(imageData) {
-			$scope.images.push("data:image/jpeg;base64," + imageData);
+			$scope.post.images.push("data:image/jpeg;base64," + imageData);
 		}, function(err) {
 			// An error occured. Show a message to the user
 		});

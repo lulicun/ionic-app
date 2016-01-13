@@ -88,6 +88,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('tab.moment', {
       url: '/moment',
+      params : {
+        updated : false
+      },
       views: {
         'tab-moment': {
           templateUrl: 'templates/tab-moment.html',

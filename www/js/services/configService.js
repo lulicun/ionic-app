@@ -2,7 +2,7 @@
 
 app.factory('Config', function() {
 
-  var env = 'local';
+  var env = 'dev';
 
   var config = {
     local: {

@@ -1,7 +1,36 @@
 'use strict';
 
-app.controller('MomentCtrl', function($scope, $rootScope, $state, $ionicActionSheet, $ionicPopup, PostService) {
-	$scope.posts = PostService.all();
+app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, $ionicActionSheet, $ionicPopup, PostService) {
+	console.log("moment controller");
+
+	PostService.all().then(function(data) {
+		for (var i = 0; i < data.length; i++) {
+			data[i].created_at = moment(new Date(data[i].created_at)).fromNow();
+		}
+		$scope.posts = data;
+		console.log(data);
+	}, function(error) {
+
+	});
+
+
+	$rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
+    if(toState.name == 'tab.moment' && Object.keys(toParams).length !== 0){
+			PostService.all().then(function(data) {
+				for (var i = 0; i < data.length; i++) {
+					data[i].created_at = moment(new Date(data[i].created_at)).fromNow();
+				}
+				$scope.posts = data;
+				console.log(data);
+			}, function(error) {
+
+			});
+      $stateParams.updated = false;
+    }
+	});
+
+
+
 
 	$scope.createPost = function() {
 		if ($rootScope.isLoggedIn) {

@@ -1,11 +1,20 @@
 'use strict';
 
-app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaCamera, PostService) {
-	$scope.post = {content: '', images: []};
+app.controller('MomentCreateCtrl', function($scope, $state, $rootScope, $q, $ionicLoading, $ionicActionSheet, $cordovaCamera, PostService, UtilService) {
+	$scope.post = {uid: $rootScope.user._id, content: '', images: []};
 	$scope.createMoment = function() {
-		console.log($scope.post);
-		console.log("Creating moment");
-	};
+		$ionicLoading.show({
+		  template: '发布中，求其一等...'
+		});
+		PostService.create($scope.post)
+		.then(function(result) {
+			$ionicLoading.hide();
+			$state.go('tab.moment', {});
+		}, function(error) {
+			//TODO: handle error
+			$ionicLoading.hide();
+		});
+	}
 
 	var hideSheet = null;
 	$scope.addImages = function() {
@@ -31,7 +40,7 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 				return true;
 			}
 		});
-	};
+	}
 
 	var openPhotoCamera = function() {
 		var options = {
@@ -46,21 +55,7 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 			saveToPhotoAlbum: false
 		};
 		getPicture(options);
-	};
-
-	var openPhotoLibrary = function() {
-		window.imagePicker.getPictures(function(results) {
-			for (var i = 0; i < results.length; i++) {
-				console.log('Image URI: ' + results[i]);
-				$scope.post.images.push(results[i]);
-			}
-			if(!$scope.$$phase) {
-				$scope.$apply();
-			}
-		}, function (error) {
-			console.log('Error: ' + error);
-		});
-	};
+	}
 
 	var getPicture = function(options) {
 		$cordovaCamera.getPicture(options).then(function(imageData) {
@@ -68,37 +63,26 @@ app.controller('MomentCreateCtrl', function($scope, $ionicActionSheet, $cordovaC
 		}, function(err) {
 			// An error occured. Show a message to the user
 		});
+	}
 
 
-				// console.log(imageData);
-				// console.log(options);
-				//var image = document.getElementById('tempImage');
-				//image.src = imageData;
+	var openPhotoLibrary = function() {
+		window.imagePicker.getPictures(function(results) {
+			var imageDataTasks = [];
+			for (var i = 0; i < results.length; i++) {
+				imageDataTasks.push(UtilService.urlToBase64(results[i]));
+			}
 
-				// var server = "http://yourdomain.com/upload.php",
-				//     filePath = imageData;
-
-				// var date = new Date();
-
-				// var options = {
-				//     fileKey: "file",
-				//     fileName: imageData.substr(imageData.lastIndexOf('/') + 1),
-				//     chunkedMode: false,
-				//     mimeType: "image/jpg"
-				// };
-
-				// $cordovaFileTransfer.upload(server, filePath, options).then(function(result) {
-				//     console.log("SUCCESS: " + JSON.stringify(result.response));
-				//     console.log('Result_' + result.response[0] + '_ending');
-				//     alert("success");
-				//     alert(JSON.stringify(result.response));
-
-				// }, function(err) {
-				//     console.log("ERROR: " + JSON.stringify(err));
-				//     //alert(JSON.stringify(err));
-				// }, function (progress) {
-				//     // constant progress updates
-				// });
-	};
+			$q.all(imageDataTasks).then(function(data) {
+				console.log('data:', data);
+				$scope.post.images = data;
+				if(!$scope.$$phase) {
+					$scope.$apply();
+				}
+			}, function(err) {
+				console.log('err', err);
+			});
+		});
+	}
 
 });

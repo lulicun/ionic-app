@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('PostService', function() {
+app.factory('PostService', function($http, $rootScope, $q, Config) {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
@@ -167,11 +167,40 @@ app.factory('PostService', function() {
   }];
 
   return {
-    create: function(post) {
-
+    create: function(data) {
+      if (data.images.length > 0) {
+        data.images = JSON.stringify(data.images);
+      } else {
+        delete data.images;
+      }
+      console.log(data);
+      return $q(function(resolve, reject) {
+        $http.post(Config.apiEndpoint() + 'api/v1/posts',
+          data,
+          {
+            headers: {
+              'pk': $rootScope.keys.pk,
+              'sk': $rootScope.keys.sk
+            }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
     },
     all: function() {
-      return posts;
+      return $q(function(resolve, reject) {
+        $http.get(Config.apiEndpoint() + 'posts')
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
     },
     remove: function(post) {
       posts.splice(posts.indexOf(post), 1);

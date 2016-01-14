@@ -44,15 +44,15 @@ app.controller('MomentCreateCtrl', function($scope, $state, $rootScope, $q, $ion
 
 	var openPhotoCamera = function() {
 		var options = {
-			quality : 75,
+			quality : 80,
 			destinationType : Camera.DestinationType.DATA_URL,
 			sourceType : Camera.PictureSourceType.CAMERA,
-			allowEdit : true,
 			encodingType: Camera.EncodingType.JPEG,
-			targetWidth: 300,
-			targetHeight: 300,
+			targetWidth: 800,
+			targetHeight: 800,
 			popoverOptions: CameraPopoverOptions,
-			saveToPhotoAlbum: false
+			saveToPhotoAlbum: false,
+			correctOrientation: true
 		};
 		getPicture(options);
 	}
@@ -64,7 +64,6 @@ app.controller('MomentCreateCtrl', function($scope, $state, $rootScope, $q, $ion
 			// An error occured. Show a message to the user
 		});
 	}
-
 
 	var openPhotoLibrary = function() {
 		window.imagePicker.getPictures(function(results) {
@@ -82,6 +81,13 @@ app.controller('MomentCreateCtrl', function($scope, $state, $rootScope, $q, $ion
 			}, function(err) {
 				console.log('err', err);
 			});
+		}, function(err) {
+			//TODO: handle errors
+		}, {
+			maximumImagesCount: 10,
+			width: 800,
+			height: 800,
+			quality: 80
 		});
 	}
 

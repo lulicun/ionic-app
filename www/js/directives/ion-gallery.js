@@ -158,7 +158,6 @@
     function link(scope, element, attrs) {
       element.css({'transition': '0.5s linear all', 'opacity': 0});
       element.bind('load', function() {
-        console.log('image is loaded');
         element.css({'transition': '0.5s linear all', 'opacity': 1});
       });
     }

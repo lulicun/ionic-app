@@ -84,7 +84,7 @@ app.controller('MomentCreateCtrl', function($scope, $state, $rootScope, $q, $ion
 		}, function(err) {
 			//TODO: handle errors
 		}, {
-			maximumImagesCount: 10,
+			maximumImagesCount: 9,
 			width: 800,
 			height: 800,
 			quality: 80

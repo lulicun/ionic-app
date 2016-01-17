@@ -202,6 +202,28 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
         });
       });
     },
+    getTwenty: function(created_at) {
+      return $q(function(resolve, reject) {
+        $http.get(Config.apiEndpoint() + 'twenty-posts/' + created_at)
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    getNew: function(from_now) {
+      return $q(function(resolve, reject) {
+        $http.get(Config.apiEndpoint() + 'new-posts/' + from_now)
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
     remove: function(post) {
       posts.splice(posts.indexOf(post), 1);
     },

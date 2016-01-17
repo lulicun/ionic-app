@@ -3,6 +3,7 @@
     <a class="button button-icon icon ion-ios-plus-outline" ng-click="createPost()"></a>
   </ion-nav-buttons>
   <ion-content class="padding">
+    <button class="button button-full icon-right ion-refresh" ng-click="getNew()">刷新</button>
     <div class="list card" ng-repeat="post in posts">
       <div class="item item-divider">
         <img ng-src="{{post.posted_by.face}}" style="width: 30px; height: 30px">
@@ -12,7 +13,7 @@
         <div>
           {{post.content}}
           <ion-gallery ion-gallery-items="post.images"></ion-gallery>
-          <p><small>{{post.created_at}}</small></p>
+          <p><small>{{post.created_at_from_now}}</small></p>
         </div>
         <div>
           <a class="button button-icon icon ion-ios-heart-outline" ng-click="addLike(post)">{{post.likes.length}}</a>
@@ -26,5 +27,6 @@
         </ion-list>
       </div>
     </div>
+    <button class="button button-full icon-right ion-more" ng-click="getMore()">更多</button>
   </ion-content>
 </ion-view>

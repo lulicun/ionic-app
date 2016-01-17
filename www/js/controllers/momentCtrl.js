@@ -3,34 +3,32 @@
 app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, $ionicActionSheet, $ionicPopup, PostService) {
 	console.log("moment controller");
 
-	PostService.all().then(function(data) {
-		for (var i = 0; i < data.length; i++) {
-			data[i].created_at = moment(new Date(data[i].created_at)).fromNow();
-		}
-		$scope.posts = data;
-		console.log(data);
-	}, function(error) {
+	$scope.posts = [];
 
-	});
-
+	PostService.getTwenty((new Date()).getTime()).then(function(data) {
+		$scope.posts = addAttribute(data);
+	}, function(error) {});
 
 	$rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
-    if(toState.name == 'tab.moment' && Object.keys(toParams).length !== 0){
-			PostService.all().then(function(data) {
-				for (var i = 0; i < data.length; i++) {
-					data[i].created_at = moment(new Date(data[i].created_at)).fromNow();
-				}
-				$scope.posts = data;
-				console.log(data);
-			}, function(error) {
-
-			});
-      $stateParams.updated = false;
-    }
+		if(toState.name == 'tab.moment' && Object.keys(toParams).length !== 0){
+			PostService.getNew((new Date($scope.posts[0].created_at)).getTime()).then(function(data) {
+				$scope.posts.unshift.apply($scope.posts, addAttribute(data));
+			}, function(error) {});
+		  $stateParams.updated = false;
+		}
 	});
 
+	$scope.getNew = function() {
+		PostService.getNew((new Date($scope.posts[0].created_at)).getTime()).then(function(data) {
+			$scope.posts.unshift.apply($scope.posts, data);
+		}, function(error) {});
+	}
 
-
+	$scope.getMore = function() {
+		PostService.getTwenty((new Date($scope.posts[$scope.posts.length-1].created_at)).getTime()).then(function(data) {
+			$scope.posts.push.apply($scope.posts, addAttribute(data));
+		}, function(error) {});
+	}
 
 	$scope.createPost = function() {
 		if ($rootScope.isLoggedIn) {
@@ -73,4 +71,11 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		});
 		post.newComment = null;
 	};
+
+	var addAttribute = function(data) {
+		for (var i = 0; i < data.length; i++) {
+			data[i].created_at_from_now = moment(new Date(data[i].created_at)).fromNow();
+		}
+		return data;
+	}
 });

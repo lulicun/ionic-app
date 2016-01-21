@@ -224,6 +224,51 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
         });
       });
     },
+    like: function(post) {
+      return $q(function(resolve, reject) {
+        $http.post(Config.apiEndpoint() + 'api/v1/posts/' + post._id + '/likes',
+          {
+            like_from: $rootScope.user._id
+          },
+          {
+            headers: {
+              'pk': $rootScope.keys.pk,
+              'sk': $rootScope.keys.sk
+            }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    comment: function(post) {
+      return $q(function(resolve, reject) {
+        $http.post(Config.apiEndpoint() + 'api/v1/posts/' + post._id + '/comments',
+          {
+            text: post.newComment,
+            comment_from: $rootScope.user._id,
+            reply_to: post.reply_to
+          },
+          {
+            headers: {
+              'pk': $rootScope.keys.pk,
+              'sk': $rootScope.keys.sk
+            }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+
+
+
     remove: function(post) {
       posts.splice(posts.indexOf(post), 1);
     },

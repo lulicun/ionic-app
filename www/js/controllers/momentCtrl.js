@@ -54,8 +54,17 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	}
 
 	$scope.addLike = function(post) {
-		console.log(post);
-		post.likes.push({uid: '123', username: 'hello'});
+		if (objectInArray(post.likes, 'from._id', $rootScope.user._id)) return;
+		PostService.like(post).then(function(data) {
+			post.likes.push({
+				from: {
+					_id: $rootScope.user._id,
+					username: $rootScope.user.username,
+					nickname: $rootScope.user.nickname,
+					face: $rootScope.face
+				}
+			});
+		}, function(err) {});
 	};
 
 	$scope.toggleComments = function(post) {
@@ -64,12 +73,21 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 
 	$scope.addComment = function(post) {
 		console.log(post.newComment);
-		post.comments.push({
-			uid: "567a11bc6d7ca1142e8e2640",
-			username: "michael@bond.co",
-			content: post.newComment
-		});
-		post.newComment = null;
+		PostService.comment(post).then(function(data) {
+			post.comments.push({
+				from: {
+					_id: $rootScope.user._id,
+					username: $rootScope.user.username,
+					nickname: $rootScope.user.nickname,
+					face: $rootScope.user.face
+				},
+				to: {
+
+				},
+				text: post.newComment
+			});
+			post.newComment = null;
+		}, function(err) {});
 	};
 
 	var addAttribute = function(data) {
@@ -77,5 +95,12 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 			data[i].created_at_from_now = moment(new Date(data[i].created_at)).fromNow();
 		}
 		return data;
+	}
+
+	var objectInArray = function(arr, attr, val) {
+		for (var i = 0; i < arr.length; i++) {
+			if(_.get(arr[i], attr) == val) return true;
+		}
+		return false;
 	}
 });

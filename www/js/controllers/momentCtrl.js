@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, $ionicActionSheet, $ionicPopup, PostService) {
+app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicActionSheet, $ionicPopup, PostService) {
 	console.log("moment controller");
 
 	$scope.posts = [];
@@ -19,8 +19,13 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	});
 
 	$scope.getNew = function() {
-		PostService.getNew((new Date($scope.posts[0].created_at)).getTime()).then(function(data) {
-			$scope.posts.unshift.apply($scope.posts, data);
+		$ionicLoading.show({
+          	template: '求其一等...'
+        });
+		PostService.getTwenty((new Date()).getTime()).then(function(data) {
+			//TODO: there's an error from ion-gallery when scope is destroyed, should only update changed posts
+			$scope.posts = addAttribute(data);
+			$ionicLoading.hide();
 		}, function(error) {});
 	}
 

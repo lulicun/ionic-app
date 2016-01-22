@@ -26,7 +26,7 @@
               <b>{{comment.from.nickname}}:</b> {{comment.text}}
             </p>
           </ion-item>
-          <input type="text" placeholder="说两句呗..." ng-enter="addComment(post)" ng-model="post.newComment">
+          <input type="text" placeholder="说两句呗..." ng-blur="addComment(post)" ng-model="post.newComment">
         </ion-list>
       </div>
     </div>

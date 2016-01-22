@@ -77,22 +77,23 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	};
 
 	$scope.addComment = function(post) {
-		console.log(post.newComment);
-		PostService.comment(post).then(function(data) {
-			post.comments.push({
-				from: {
-					_id: $rootScope.user._id,
-					username: $rootScope.user.username,
-					nickname: $rootScope.user.nickname,
-					face: $rootScope.user.face
-				},
-				to: {
+		if(post.newComment) {
+			PostService.comment(post).then(function(data) {
+				post.comments.push({
+					from: {
+						_id: $rootScope.user._id,
+						username: $rootScope.user.username,
+						nickname: $rootScope.user.nickname,
+						face: $rootScope.user.face
+					},
+					to: {
 
-				},
-				text: post.newComment
-			});
-			post.newComment = null;
-		}, function(err) {});
+					},
+					text: post.newComment
+				});
+				post.newComment = null;
+			}, function(err) {});
+		}
 	};
 
 	var addAttribute = function(data) {

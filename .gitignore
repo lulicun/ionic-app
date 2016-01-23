@@ -8,3 +8,5 @@ plugins/
 hooks/
 www/lib/
 
+npm-debug.log
+

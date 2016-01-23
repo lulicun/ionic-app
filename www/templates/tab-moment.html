@@ -9,13 +9,13 @@
         <img ng-src="{{post.posted_by.face}}" style="width: 30px; height: 30px">
         {{post.posted_by.nickname}}
       </div>
-      <div class="item item-body">
+      <div class="item item-body post-item-body">
         <div>
           {{post.content}}
           <ion-gallery ion-gallery-items="post.images"></ion-gallery>
-          <p><small>{{post.created_at_from_now}}</small></p>
+          <p class="post-created-at"><small>{{post.created_at_from_now}}</small></p>
         </div>
-        <div>
+        <div class="post-feedback">
           <a class="button button-icon icon ion-ios-heart-outline" ng-click="addLike(post)">{{post.likes.length}}</a>
           <a class="button button-icon icon ion-ios-chatbubble-outline" ng-click="toggleComments(post)">{{post.comments.length}}</a>
         </div>

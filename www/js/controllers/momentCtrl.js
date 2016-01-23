@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicActionSheet, $ionicPopup, PostService) {
+app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, $ionicPlatform, $ionicLoading, $ionicActionSheet, $ionicPopup, PostService) {
 	console.log("moment controller");
 
 	$scope.posts = [];
@@ -17,6 +17,13 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		  $stateParams.updated = false;
 		}
 	});
+
+	$ionicPlatform.on('resume', function(){
+		//TODO: get update message
+      	PostService.getTwenty((new Date()).getTime()).then(function(data) {
+			$scope.posts = addAttribute(data);
+		}, function(error) {});
+    });
 
 	$scope.getNew = function() {
 		$ionicLoading.show({

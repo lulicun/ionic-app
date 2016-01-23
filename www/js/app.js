@@ -1,7 +1,7 @@
 // Ionic Starter App
 app = angular.module('ionic-app', ['ionic', 'ion-gallery', 'ngCordova'])
 
-app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage) {
+app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, DeviceService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -16,42 +16,55 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage) {
     }
   });
 
-  // document.addEventListener("deviceready", function(){
-  //   var push = PushNotification.init({
-  //       android: {
-  //           senderID: "12345679"
-  //       },
-  //       ios: {
-  //           alert: "true",
-  //           badge: "true",
-  //           sound: "true"
-  //       },
-  //       windows: {}
-  //   });
+  document.addEventListener("deviceready", function(){
 
+    // Reference: https://github.com/phonegap/phonegap-plugin-push
+    var push = PushNotification.init({
+        android: {
+            senderID: "12345679"
+        },
+        ios: {
+            alert: "true",
+            badge: "true",
+            sound: "true",
+            clearBadge: "true"
+        },
+        windows: {}
+    });
 
+    push.on('registration', function(data) {
+        DeviceService.create({
+          device_id: data.registrationId,
+          type: 'ios' // TODO: Fix hard code
+        }).then(function(result) {
+          $rootScope.device_id = data.registrationId;
+        }, function(err) {
+          if (err.code == 409) {
+            $rootScope.device_id = data.registrationId;
+          } else {
+            alert('System Err: Failed to save your device ID.');
+          }
+        });
+    });
 
-  //   push.on('registration', function(data) {
-  //       // data.registrationId
-  //       console.log(data);
-  //       alert(data.registrationId);
-  //   });
+    push.on('notification', function(data) {
+      push.getApplicationIconBadgeNumber(function(n) {
+          push.setApplicationIconBadgeNumber(function() {}, function() {}, ++n);
+      }, function() {});
+      // data.message,
+      // data.title,
+      // data.count,
+      // data.sound,
+      // data.image,
+      // data.additionalData
+    });
 
-  //   push.on('notification', function(data) {
-  //     console.log(data);
-  //     // data.message,
-  //     // data.title,
-  //     // data.count,
-  //     // data.sound,
-  //     // data.image,
-  //     // data.additionalData
-  //   });
+    push.on('error', function(e) {
+      alert('System Err: ' + e.message);
+    });
 
-  //   push.on('error', function(e) {
-  //     console.log(e.message);
-  //       // e.message
-  //   });
-  // }, false);
+    $rootScope.pushNotification = push;
+  }, false);
 
   if ($localStorage.getObject('keys')) {
     $rootScope.keys = $localStorage.getObject('keys');

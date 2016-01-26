@@ -4,9 +4,13 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	console.log("moment controller");
 
 	$scope.posts = [];
+	$scope.newComments = [];
 
 	PostService.getTwenty((new Date()).getTime()).then(function(data) {
 		$scope.posts = addAttribute(data);
+	}, function(error) {});
+	PostService.getNewComment().then(function(data) {
+		$scope.newComments = data.comments;
 	}, function(error) {});
 
 	$rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
@@ -33,6 +37,9 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 			//TODO: there's an error from ion-gallery when scope is destroyed, should only update changed posts
 			$scope.posts = addAttribute(data);
 			$ionicLoading.hide();
+		}, function(error) {});
+		PostService.getNewComment().then(function(data) {
+			$scope.newComments = data.comments;
 		}, function(error) {});
 	}
 

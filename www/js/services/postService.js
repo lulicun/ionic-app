@@ -103,19 +103,21 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
         });
       });
     },
-
-
-
-    remove: function(post) {
-      posts.splice(posts.indexOf(post), 1);
-    },
-    get: function(postId) {
-      for (var i = 0; i < posts.length; i++) {
-        if (posts[i].id === parseInt(postId)) {
-          return posts[i];
-        }
-      }
-      return null;
+    getNewComment: function() {
+      return $q(function(resolve, reject) {
+        $http.get(Config.apiEndpoint() + 'api/v1/new-comments/' + $rootScope.user._id, {
+            headers: {
+              'pk': $rootScope.keys.pk,
+              'sk': $rootScope.keys.sk
+            }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
     }
   };
 });

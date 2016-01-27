@@ -110,6 +110,10 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		}
 	};
 
+	$scope.openNewComments = function() {
+		$state.go('tab.moment-comment');
+	};
+
 	var addAttribute = function(data) {
 		for (var i = 0; i < data.length; i++) {
 			data[i].created_at_from_now = moment(new Date(data[i].created_at)).fromNow();

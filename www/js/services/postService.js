@@ -2,7 +2,7 @@
 
 app.factory('PostService', function($http, $rootScope, $q, Config) {
   // Might use a resource here that returns a JSON array
-
+  var newComments = null;
   return {
     create: function(data) {
       if (data.images.length > 0) {
@@ -10,7 +10,6 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
       } else {
         delete data.images;
       }
-      console.log(data);
       return $q(function(resolve, reject) {
         $http.post(Config.apiEndpoint() + 'api/v1/posts',
           data,
@@ -112,12 +111,16 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
             }
         })
         .success(function(data, status, headers, config) {
+          newComments = data.comments;
           resolve(data);
         })
         .error(function(data, status, headers, config) {
           reject(data);
         });
       });
+    },
+    newComments: function() {
+      return newComments;
     }
   };
 });

@@ -120,6 +120,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('tab.moment-comment', {
+      url: '/moment/comment',
+      views: {
+        'tab-moment': {
+          templateUrl: 'templates/new-comment.html',
+          controller: 'NewCommentCtrl'
+        }
+      }
+    })
     .state('tab.chats', {
       url: '/chats',
       views: {

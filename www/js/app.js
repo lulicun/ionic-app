@@ -120,6 +120,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('tab.post', {
+      url: '/post/:pid',
+      views: {
+        'tab-moment': {
+          templateUrl: 'templates/post.html',
+          controller: 'PostCtrl'
+        }
+      }
+    })
     .state('tab.moment-comment', {
       url: '/moment/comment',
       views: {

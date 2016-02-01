@@ -11,6 +11,7 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	}, function(error) {});
 	PostService.getNewComment().then(function(data) {
 		$scope.newComments = data.comments;
+		PostService.removeNewComment();
 	}, function(error) {});
 
 	$rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {

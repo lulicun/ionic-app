@@ -1,14 +1,14 @@
 <ion-view view-title="新留言">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="comment in newComments">
-                <div style="float: left;">
-                    <img ng-src="{{comment.from.face}}" style="width: 30px; height: 30px; vertical-align: text-top;">
-                    {{comment.from.nickname}}
+            <ion-item ng-repeat="comment in newComments" href="#/tab/post/{{comment.pid._id}}">
+                <div class="new-comment-user">
+                    <img ng-src="{{comment.from.face}}" >
+                    <bold>{{comment.from.nickname}}</bold>
                 </div>
-                {{comment.text}}
+                <p>{{comment.text}}</p>
                 <div style="float: right;">
-                    {{comment.pid.content}}
+                    <p>{{comment.pid.content}}</p>
                     <img ng-src="{{comment.pid.images[0].src}}" ng-show="comment.pid.images.length > 0" style="width: 50px; height: 50px">
                 </div>
             </ion-item>

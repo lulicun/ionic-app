@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('SignInCtrl', function($scope, $rootScope, $ionicLoading, $localStorage, $state, UserService) {
+app.controller('SignInCtrl', function($scope, $rootScope, $ionicLoading, $localStorage, $state, UserService, DeviceService) {
 
 	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
 		viewData.enableBack = true;
@@ -31,6 +31,10 @@ app.controller('SignInCtrl', function($scope, $rootScope, $ionicLoading, $localS
 			$rootScope.keys = result.keys;
 
 			$rootScope.isLoggedIn = true;
+
+			//TODO: Handle promise return
+			DeviceService.addUser(result.user._id);
+
 			setTimeout(function() {
 				$ionicLoading.hide();
 				$state.go('tab.moment');

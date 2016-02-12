@@ -112,6 +112,7 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	};
 
 	$scope.openNewComments = function() {
+		$scope.newComments = [];
 		$state.go('tab.moment-comment');
 	};
 

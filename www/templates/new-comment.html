@@ -1,7 +1,7 @@
 <ion-view view-title="新留言">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="comment in newComments" href="#/tab/post/{{comment.pid._id}}">
+            <ion-item ng-repeat="comment in newComments" href="#/tab/moment/detail/{{comment.pid._id}}">
                 <div class="new-comment-user">
                     <img ng-src="{{comment.from.face}}" >
                     <bold>{{comment.from.nickname}}</bold>

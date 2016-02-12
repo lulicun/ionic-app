@@ -94,6 +94,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/forgot-password.html',
       controller: 'ForgotPasswordCtrl'
     })
+    .state('post', {
+      url: '/post/:pid',
+      templateUrl: 'templates/post.html',
+      controller: 'PostCtrl'
+    })
     .state('tab', {
       url: '/tab',
       abstract: true,
@@ -111,21 +116,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('tab.moment-detail', {
+      url: '/moment/detail/{pid}',
+      views: {
+        'tab-moment': {
+          templateUrl: 'templates/moment-detail.html',
+          controller: 'MomentDetailCtrl'
+        }
+      }
+    })
     .state('tab.moment-create', {
       url: '/moment/create',
       views: {
         'tab-moment': {
           templateUrl: 'templates/moment-create.html',
           controller: 'MomentCreateCtrl'
-        }
-      }
-    })
-    .state('tab.post', {
-      url: '/post/:pid',
-      views: {
-        'tab-moment': {
-          templateUrl: 'templates/post.html',
-          controller: 'PostCtrl'
         }
       }
     })

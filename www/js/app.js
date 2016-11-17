@@ -94,11 +94,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/forgot-password.html',
       controller: 'ForgotPasswordCtrl'
     })
-    .state('post', {
-      url: '/post/:pid',
-      templateUrl: 'templates/post.html',
-      controller: 'PostCtrl'
-    })
+    // .state('post', {
+    //   url: '/post/:pid',
+    //   templateUrl: 'templates/post.html',
+    //   controller: 'PostCtrl'
+    // })
     .state('tab', {
       url: '/tab',
       abstract: true,

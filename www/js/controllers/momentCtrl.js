@@ -7,15 +7,20 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	$scope.newComments = [];
 
 	PostService.getTwenty((new Date()).getTime()).then(function(data) {
-		$scope.posts = addAttribute(data);
+		data.map(function(item){
+         	item.created_at_from_now = moment(new Date(item.created_at)).fromNow();
+         	$scope.posts.push(item)
+        })
 	}, function(error) {});
-	PostService.getNewComment().then(function(data) {
-		$scope.newComments = data.comments;
-		PostService.removeNewComment();
-	}, function(error) {});
+	if ($rootScope.user) {
+		PostService.getNewComment().then(function(data) {
+			$scope.newComments = data.comments;
+			PostService.removeNewComment();
+		}, function(error) {});
+	}
 
 	$rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
-		if(toState.name == 'tab.moment' && Object.keys(toParams).length !== 0){
+		if(toState.name == 'tab.moment' && Object.keys(toParams).length !== 0 && $scope.posts.length > 0){
 			PostService.getNew((new Date($scope.posts[0].created_at)).getTime()).then(function(data) {
 				$scope.posts.unshift.apply($scope.posts, addAttribute(data));
 			}, function(error) {});
@@ -24,7 +29,6 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	});
 
 	$ionicPlatform.on('resume', function(){
-		//TODO: get update message
       	PostService.getTwenty((new Date()).getTime()).then(function(data) {
 			$scope.posts = addAttribute(data);
 		}, function(error) {});
@@ -34,9 +38,12 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		$ionicLoading.show({
           	template: '求其一等...'
         });
-		PostService.getTwenty((new Date()).getTime()).then(function(data) {
-			//TODO: there's an error from ion-gallery when scope is destroyed, should only update changed posts
-			$scope.posts = addAttribute(data);
+        var timePoint = $scope.posts[0] ? (new Date($scope.posts[0].created_at)) : (new Date())
+		PostService.getNew(timePoint.getTime()).then(function(data) {
+			data.map(function(item){
+	         	item.created_at_from_now = moment(new Date(item.created_at)).fromNow();
+	         	$scope.posts.unshift(item)
+	        })
 			$ionicLoading.hide();
 		}, function(error) {});
 		PostService.getNewComment().then(function(data) {

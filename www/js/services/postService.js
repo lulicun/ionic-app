@@ -123,12 +123,6 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
         })
         .success(function(data, status, headers, config) {
           newComments = data.comments;
-          $http.delete(Config.apiEndpoint() + 'api/v1/new-comments/' + $rootScope.user._id, {
-            headers: {
-              'pk': $rootScope.keys.pk,
-              'sk': $rootScope.keys.sk
-            }
-          });
           resolve(data);
         })
         .error(function(data, status, headers, config) {

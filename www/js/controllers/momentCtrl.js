@@ -1,8 +1,6 @@
 'use strict';
 
 app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, $ionicPlatform, $ionicLoading, $ionicActionSheet, $ionicPopup, PostService) {
-	console.log("moment controller");
-
 	$scope.posts = [];
 	$scope.newComments = [];
 
@@ -98,24 +96,33 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	};
 
 	$scope.addComment = function(post) {
-		if(post.newComment) {
-			PostService.comment(post).then(function(data) {
-				post.comments.push({
-					from: {
-						_id: $rootScope.user._id,
-						username: $rootScope.user.username,
-						nickname: $rootScope.user.nickname,
-						face: $rootScope.user.face
-					},
-					to: {
-
-					},
-					text: post.newComment
-				});
-				post.newComment = null;
-			}, function(err) {});
-		}
+		if(post.newComment && post.newComment.content && post.newComment.content.split(':')[1] != ' ') {
+            if (post.newComment.to && post.newComment.content.split(':')[0] != `@${post.newComment.to.nickname}`) {
+                post.newComment.to = null
+            }
+            PostService.comment(post).then(function(data) {
+                post.comments.push({
+                    from: {
+                        _id: $rootScope.user._id,
+                        username: $rootScope.user.username,
+                        nickname: $rootScope.user.nickname,
+                        face: $rootScope.user.face
+                    },
+                    to: post.newComment.to || null,
+                    text: post.newComment.content
+                });
+                post.newComment = null;
+            }, function(err) {});
+        }
 	};
+
+	$scope.replyComment = function(post, comment) {
+		post.newComment = {
+			content: `@${comment.from.nickname}: `,
+			to: comment.from
+		}
+		post.autoFocus = true;
+	}
 
 	$scope.openNewComments = function() {
 		$scope.newComments = [];

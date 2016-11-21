@@ -95,9 +95,9 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
       return $q(function(resolve, reject) {
         $http.post(Config.apiEndpoint() + 'api/v1/posts/' + post._id + '/comments',
           {
-            text: post.newComment,
+            text: post.newComment.content,
             comment_from: $rootScope.user._id,
-            reply_to: post.reply_to
+            reply_to: post.newComment.to || null
           },
           {
             headers: {

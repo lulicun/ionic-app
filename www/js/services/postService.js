@@ -97,7 +97,7 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
           {
             text: post.newComment.content,
             comment_from: $rootScope.user._id,
-            reply_to: post.newComment.to || null
+            reply_to: post.newComment.to._id || null
           },
           {
             headers: {

@@ -16,12 +16,13 @@
             </div>
             <ion-list>
               <ion-item ng-repeat="comment in post.comments" class="post-comment-item">
-                <p>
+                <p ng-click="replyComment(post, comment)">
                   <img ng-src="{{comment.from.face}}" style="width: 20px; height: 20px">
                   <b>{{comment.from.nickname}}:</b> {{comment.text}}
                 </p>
               </ion-item>
-              <input type="text" placeholder="说两句呗..." ng-blur="addComment(post)" ng-model="post.newComment">
+              <input type="text" class="new-comment-input" auto-focus="{{post.autoFocus}}" placeholder="说两句呗..." ng-model="post.newComment.content">
+              <a class="button button-icon icon ion-paper-airplane" ng-click="addComment(post)"></a>
             </ion-list>
         </div>
     </ion-content>

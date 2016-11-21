@@ -2,7 +2,7 @@
 
 app.factory('Config', function() {
 
-  var env = 'local';
+  var env = 'prod';
 
   var config = {
     local: {
@@ -12,7 +12,7 @@ app.factory('Config', function() {
       apiEndpoint: 'http://54.174.163.167:8090/'
     },
     prod: {
-
+      apiEndpoint: 'https://liangshanquan.herokuapp.com/'
     }
   }
 

@@ -1,3 +1,15 @@
+.create-post-button {
+    margin-top: 6px;
+}
+
+.customized-card {
+    margin: 10px auto 1px;
+    .customized-card-item {
+        padding-bottom: 0px;
+        padding-top: 5px;
+    }
+}
+
 .post-item-body {
     overflow: hidden;
     padding: 2px 16px;
@@ -6,7 +18,7 @@
 .post-feedback {
     a {
         min-height: 36px;
-        height: 40px;
+        height: 36px;
     }
 }
 
@@ -22,6 +34,9 @@
 
 .post-new-comment {
     text-align: center;
-    border: dotted 1px;
-    margin: 0 25%;
+}
+
+.new-comment-input {
+    display: inline !important;
+    width: 80%;
 }

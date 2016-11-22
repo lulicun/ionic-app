@@ -42,7 +42,14 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	         	$scope.posts.unshift(item)
 	        })
 			$ionicLoading.hide();
-		}, function(error) {});
+		}, function(error) {
+			$ionicLoading.show({
+				template: '网络错误...'
+	        });
+	        setTimeout(function() {
+				$ionicLoading.hide();
+	        }, 3000);
+		});
 		PostService.getNewComment().then(function(data) {
 			$scope.newComments = data.comments;
 		}, function(error) {});

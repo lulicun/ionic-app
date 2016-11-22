@@ -11,8 +11,12 @@ app.controller('MomentCreateCtrl', function($scope, $state, $rootScope, $q, $ion
 			$ionicLoading.hide();
 			$state.go('tab.moment', {});
 		}, function(error) {
-			//TODO: handle error
-			$ionicLoading.hide();
+			$ionicLoading.show({
+				template: '网络错误...'
+	        });
+	        setTimeout(function() {
+				$ionicLoading.hide();
+	        }, 3000);
 		});
 	}
 

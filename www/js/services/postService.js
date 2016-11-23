@@ -71,6 +71,17 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
         });
       });
     },
+    getByUid: function(uid) {
+      return $q(function(resolve, reject) {
+        $http.get(Config.apiEndpoint() + `api/v1/users/${uid}/posts`)
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
     like: function(post) {
       return $q(function(resolve, reject) {
         $http.post(Config.apiEndpoint() + 'api/v1/posts/' + post._id + '/likes',

@@ -1,5 +1,27 @@
 <ion-view view-title="个人主页">
-    <ion-content class="padding">
-        hello
-    </ion-content>
+	<ion-content class="padding">
+		<div class="list card customized-card" ng-repeat="post in posts">
+		  <div class="item item-body post-item-body">
+					<div>
+					{{post.content}}
+						<ion-gallery ion-gallery-items="post.images" ion-gallery-toggle="false"></ion-gallery>
+						<p class="post-created-at"><small>{{post.created_at_from_now}}</small></p>
+					</div>
+					<div class="post-feedback">
+						<a class="button button-icon icon ion-ios-heart-outline" ng-click="addLike(post)">{{post.likes.length}}</a>
+						<a class="button button-icon icon ion-ios-chatbubble-outline" ng-click="toggleComments(post)">{{post.comments.length}}</a>
+					</div>
+					<ion-list ng-show="post.showComments">
+						<ion-item ng-repeat="comment in post.comments" class="post-comment-item">
+							<p ng-click="replyComment(post, comment)">
+							  <img ng-src="{{comment.from.face}}" style="width: 20px; height: 20px">
+							  <b>{{comment.from.nickname}}:</b> {{comment.text}}
+							</p>
+						</ion-item>
+						<input type="text" class="new-comment-input" auto-focus="{{post.autoFocus}}" placeholder="说两句呗..." ng-model="post.newComment.content">
+						<a class="button button-icon icon ion-paper-airplane" ng-click="addComment(post)"></a>
+					</ion-list>
+				</div>
+		</div>
+	</ion-content>
 </ion-view>

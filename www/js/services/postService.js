@@ -73,7 +73,7 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
     },
     getByUid: function(uid) {
       return $q(function(resolve, reject) {
-        $http.get(Config.apiEndpoint() + `api/v1/users/${uid}/posts`)
+        $http.get(Config.apiEndpoint() + `users/${uid}/posts`)
         .success(function(data, status, headers, config) {
           resolve(data);
         })

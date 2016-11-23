@@ -27,16 +27,33 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 
 	$ionicPlatform.on('resume', function(){
       	PostService.getTwenty((new Date()).getTime()).then(function(data) {
-			$scope.posts = addAttribute(data);
-		}, function(error) {});
+			$scope.posts = [];
+			data.map(function(item){
+				item.created_at_from_now = moment(new Date(item.created_at)).fromNow();
+				$scope.posts.push(item)
+	        });
+	        $ionicLoading.hide();
+		}, function(error) {
+			$ionicLoading.show({
+				template: '网络错误...'
+	        });
+	        setTimeout(function() {
+				$ionicLoading.hide();
+	        }, 3000);
+		});
+		if ($rootScope.user) {
+			PostService.getNewComment().then(function(data) {
+				$scope.newComments = data.comments;
+			}, function(error) {});
+		}
     });
 
 	$scope.refresh = function() {
 		$ionicLoading.show({
 			template: '求其一等...'
         });
-        $scope.posts = [];
 		PostService.getTwenty((new Date()).getTime()).then(function(data) {
+			$scope.posts = [];
 			data.map(function(item){
 				item.created_at_from_now = moment(new Date(item.created_at)).fromNow();
 				$scope.posts.push(item)

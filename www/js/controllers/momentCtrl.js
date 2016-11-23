@@ -181,7 +181,7 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	};
 
 	$scope.openUserMoments = function(user) {
-		$state.go('tab.moment-userMoment', {uid: user._id});
+		$state.go('tab.moment-userMoment', {uid: user._id, title: user.nickname || user.username});
 	}
 
 	var addAttribute = function(data) {

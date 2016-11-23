@@ -135,7 +135,7 @@ app.config(function($stateProvider, $urlRouterProvider, ionGalleryConfigProvider
       }
     })
     .state('tab.moment-userMoment', {
-      url: '/users/{uid}/moment',
+      url: '/users/{uid}/moment/:title',
       views: {
         'tab-moment': {
           templateUrl: 'templates/user-moment.html',

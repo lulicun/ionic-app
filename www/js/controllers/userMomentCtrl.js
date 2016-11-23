@@ -1,8 +1,10 @@
 'use strict'
 
 app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $stateParams, PostService) {
-	console.log($stateParams.uid)
     $scope.posts = []
+
+    $scope.title = $stateParams.title
+
 	PostService.getByUid($stateParams.uid).then(function(data) {
         data.map(function(item){
             item.created_at_from_now = moment(new Date(item.created_at)).fromNow();

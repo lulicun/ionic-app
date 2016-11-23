@@ -184,6 +184,11 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		$state.go('tab.moment-userMoment', {uid: user._id, title: user.nickname || user.username});
 	}
 
+	$scope.removeMoment = function(post) {
+		console.log(post)
+		_.remove($scope.posts, post)
+	}
+
 	var addAttribute = function(data) {
 		for (var i = 0; i < data.length; i++) {
 			data[i].created_at_from_now = moment(new Date(data[i].created_at)).fromNow();

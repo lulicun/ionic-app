@@ -22,6 +22,7 @@
         </div>
         <div class="post-created-at"><small>{{post.created_at_from_now}}</small></div>
         <div class="post-feedback">
+          <a class="button button-icon icon ion-ios-trash-outline" ng-show="post.posted_by._id == user._id" ng-click="removeMoment(post)">删除</a>
           <a class="button button-icon icon ion-ios-heart-outline" ng-click="addLike(post)">{{post.likes.length}}</a>
           <a class="button button-icon icon ion-ios-chatbubble-outline" ng-click="toggleComments(post)">{{post.comments.length}}</a>
         </div>

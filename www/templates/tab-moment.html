@@ -3,7 +3,7 @@
     <a class="button button-icon icon ion-ios-plus-outline create-post-button" ng-click="createPost()"></a>
   </ion-nav-buttons>
   <ion-content class="padding">
-    <button class="button button-full icon-right ion-refresh" ng-click="getNew()">刷新</button>
+    <button class="button button-full icon-right ion-refresh" ng-click="refresh()">刷新</button>
     <div class="post-new-comment" ng-show="user && newComments.length > 0" ng-click="openNewComments()">
       <img ng-src="{{newComments[newComments.length-1].from.face}}" style="width: 30px; height: 30px">
       {{newComments.length}}

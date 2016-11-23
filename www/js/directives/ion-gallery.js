@@ -474,10 +474,10 @@
       };
 
       scope.$on('$destroy', function() {
-        _modal.remove();
+        if (_modal) {
+          _modal.remove();
+        }
       });
-      
-      
     }
   }
 })();

@@ -60,6 +60,11 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
         post.autoFocus = true;
     }
 
+    $scope.removeMoment = function(post) {
+        _.remove($scope.posts, post)
+        PostService.removeById(post._id)
+    }
+
     var objectInArray = function(arr, attr, val) {
         for (var i = 0; i < arr.length; i++) {
             if(_.get(arr[i], attr) == val) return true;

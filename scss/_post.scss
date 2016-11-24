@@ -16,6 +16,7 @@
 }
 
 .post-feedback {
+    text-align: right;
     a {
         min-height: 36px;
         height: 36px;
@@ -24,6 +25,7 @@
 
 .post-created-at {
     margin-top: 0 !important;
+    position: absolute;
 }
 
 .post-comment-item {

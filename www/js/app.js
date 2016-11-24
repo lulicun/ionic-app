@@ -76,7 +76,7 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
 
 })
 
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider, ionGalleryConfigProvider) {
 
   $stateProvider
     .state('signin', {
@@ -134,6 +134,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('tab.moment-userMoment', {
+      url: '/users/{uid}/moment/:title',
+      views: {
+        'tab-moment': {
+          templateUrl: 'templates/user-moment.html',
+          controller: 'UserMomentCtrl'
+        }
+      }
+    })
     .state('tab.moment-comment', {
       url: '/moment/comment',
       views: {
@@ -175,5 +184,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/tab/moment');
 
   moment.locale('zh-cn');
+
+  ionGalleryConfigProvider.setGalleryConfig({
+    action_label: '关闭',
+    template_gallery: 'gallery.html',
+    template_slider: 'slider.html',
+    toggle: false,
+    row_size: 3,
+    fixed_row_size: true
+  });
 
 });

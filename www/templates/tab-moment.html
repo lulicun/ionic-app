@@ -28,9 +28,11 @@
         </div>
         <ion-list ng-show="post.showComments">
           <ion-item ng-repeat="comment in post.comments" class="post-comment-item">
-            <p ng-click="replyComment(post, comment)">
+            <span ng-click="openUserMoments(comment.from)">
               <i class="icon ion-happy-outline" ng-show="!comment.from.face" style="font-size: 25px;"></i>
               <img ng-src="{{comment.from.face}}" style="width: 20px; height: 20px" ng-show="comment.from.face">
+            </span>
+            <p ng-click="replyComment(post, comment)" class="post-comment-content">
               <b>{{comment.from.nickname}}:</b> {{comment.text}}
             </p>
           </ion-item>

@@ -65,6 +65,10 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
         PostService.removeById(post._id)
     }
 
+    $scope.openUserMoments = function(user) {
+        $state.go('tab.moment-userMoment', {uid: user._id, title: user.nickname || user.username});
+    }
+
     var objectInArray = function(arr, attr, val) {
         for (var i = 0; i < arr.length; i++) {
             if(_.get(arr[i], attr) == val) return true;

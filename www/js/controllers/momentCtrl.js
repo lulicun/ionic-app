@@ -185,8 +185,8 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	}
 
 	$scope.removeMoment = function(post) {
-		console.log(post)
 		_.remove($scope.posts, post)
+		PostService.removeById(post._id)
 	}
 
 	var addAttribute = function(data) {

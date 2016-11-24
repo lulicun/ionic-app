@@ -14,6 +14,8 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    ionic.Platform.fullScreen();
   });
 
   document.addEventListener("deviceready", function(){

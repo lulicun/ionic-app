@@ -2,7 +2,7 @@
   <ion-nav-buttons side="right">
     <a class="button button-icon icon ion-ios-plus-outline create-post-button" ng-click="createPost()"></a>
   </ion-nav-buttons>
-  <ion-content class="padding">
+  <ion-content class="padding ion-content-position">
     <button class="button button-full icon-right ion-refresh" ng-click="refresh()">刷新</button>
     <div class="post-new-comment" ng-show="user && newComments.length > 0" ng-click="openNewComments()">
       <i class="icon ion-happy-outline" ng-show="!newComments[newComments.length-1].from.face" style="font-size: 30px;"></i>

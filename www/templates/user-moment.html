@@ -1,14 +1,23 @@
 <ion-view view-title="{{title}}">
   <ion-content class="padding ion-content-position">
 
-    <div style="text-align: center; position: relative; background-color: silver;">
-      <i class="icon ion-happy-outline" ng-show="!posts[0].posted_by.face" style="font-size: 200px;"></i>
-      <img ng-src="{{posts[0].posted_by.face}}" ng-show="posts[0].posted_by.face">
-      <p style="position: relative;
-                top: -23px;
-                right: 10px;
-                text-align: right;
-                color: white;">{{title}}</p>
+      <div style="text-align: center; position: relative; background: red; /* For browsers that do not support gradients */
+        background: -webkit-linear-gradient(-90deg, #0c60ee, red); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(-90deg, #0c60ee, red); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(-90deg, #0c60ee, red); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(-90deg, #0c60ee, red); /* Standard syntax */">
+      <img ng-src="{{posts[0].posted_by.face || './img/default_photo.png'}}" style="width: 100%;">
+      <span style="position: relative;
+                top: -4px;
+                left: 10px;
+                float: left;
+                color: white;">
+        <i class="icon ion-chatboxes" style="font-size: 25px;"></i>
+      </span>
+      <span style="position: relative;
+                left: 20%;
+                color: white;
+                font-size: 20px;">{{title}}</span>
     </div>
 
     <div class="list card customized-card" ng-repeat="post in posts">
@@ -26,8 +35,7 @@
           <ion-list ng-show="post.showComments">
             <ion-item ng-repeat="comment in post.comments" class="post-comment-item">
               <span ng-click="openUserMoments(comment.from)">
-                <i class="icon ion-happy-outline" ng-show="!comment.from.face" style="font-size: 25px;"></i>
-                <img ng-src="{{comment.from.face}}" style="width: 20px; height: 20px" ng-show="comment.from.face">
+                <img ng-src="{{comment.from.face || './img/default_photo.png'}}" style="width: 20px; height: 20px">
               </span>
               <p ng-click="replyComment(post, comment)" class="post-comment-content">
                 <b>{{comment.from.nickname}}:</b> {{comment.text}}

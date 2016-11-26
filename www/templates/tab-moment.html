@@ -3,16 +3,18 @@
     <a class="button button-icon icon ion-ios-plus-outline create-post-button" ng-click="createPost()"></a>
   </ion-nav-buttons>
   <ion-content class="padding ion-content-position">
-    <button class="button button-full icon-right ion-refresh" ng-click="refresh()">刷新</button>
+    <button class="button button-full icon-right ion-refresh" ng-click="refresh()" style="color: white; background: red; /* For browsers that do not support gradients */
+        background: -webkit-linear-gradient(-90deg, #0c60ee, red); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(-90deg, #0c60ee, red); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(-90deg, #0c60ee, red); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(-90deg, #0c60ee, red); /* Standard syntax */" >刷新</button>
     <div class="post-new-comment" ng-show="user && newComments.length > 0" ng-click="openNewComments()">
-      <i class="icon ion-happy-outline" ng-show="!newComments[newComments.length-1].from.face" style="font-size: 30px;"></i>
-      <img ng-src="{{newComments[newComments.length-1].from.face}}" style="width: 30px; height: 30px" ng-show="newComments[newComments.length-1].from.face">
+      <img ng-src="{{newComments[newComments.length-1].from.face || './img/default_photo.png'}}" style="width: 30px; height: 30px">
       {{newComments.length}}
     </div>
     <div class="list card customized-card" ng-repeat="post in posts">
       <div class="item item-divider customized-card-item" ng-click="openUserMoments(post.posted_by)">
-        <i class="icon ion-happy-outline" ng-show="!post.posted_by.face" style="font-size: 30px;"></i>
-        <img ng-src="{{post.posted_by.face}}" ng-show="post.posted_by.face" style="width: 25px; height: 25px">
+        <img ng-src="{{post.posted_by.face || './img/default_photo.png'}}" style="width: 25px; height: 25px">
         {{post.posted_by.nickname}}
       </div>
       <div class="item item-body post-item-body">
@@ -29,8 +31,7 @@
         <ion-list ng-show="post.showComments">
           <ion-item ng-repeat="comment in post.comments" class="post-comment-item">
             <span ng-click="openUserMoments(comment.from)">
-              <i class="icon ion-happy-outline" ng-show="!comment.from.face" style="font-size: 25px;"></i>
-              <img ng-src="{{comment.from.face}}" style="width: 20px; height: 20px" ng-show="comment.from.face">
+              <img ng-src="{{comment.from.face || './img/default_photo.png'}}" style="width: 20px; height: 20px">
             </span>
             <p ng-click="replyComment(post, comment)" class="post-comment-content">
               <b>{{comment.from.nickname}}:</b> {{comment.text}}

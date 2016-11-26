@@ -25,7 +25,10 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		}
 	});
 
-	$ionicPlatform.on('resume', function(){
+	$rootScope.$on('onResume', function(){
+		$ionicLoading.show({
+			template: '求其一等...'
+        });
       	PostService.getTwenty((new Date()).getTime()).then(function(data) {
 			$scope.posts = [];
 			data.map(function(item){

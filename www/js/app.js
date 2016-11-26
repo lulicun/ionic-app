@@ -68,6 +68,10 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
     $rootScope.pushNotification = push;
   }, false);
 
+  document.addEventListener("resume", function() {
+      $rootScope.$broadcast('onResume');
+  }, false);
+
   if ($localStorage.getObject('keys')) {
     $rootScope.keys = $localStorage.getObject('keys');
     $rootScope.user = $localStorage.getObject('user');
@@ -96,11 +100,6 @@ app.config(function($stateProvider, $urlRouterProvider, ionGalleryConfigProvider
       templateUrl: 'templates/forgot-password.html',
       controller: 'ForgotPasswordCtrl'
     })
-    // .state('post', {
-    //   url: '/post/:pid',
-    //   templateUrl: 'templates/post.html',
-    //   controller: 'PostCtrl'
-    // })
     .state('tab', {
       url: '/tab',
       abstract: true,

@@ -1,6 +1,6 @@
 'use strict'
 
-app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $stateParams, PostService) {
+app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $stateParams, $ionicPopup, PostService) {
     $scope.posts = []
 
     $scope.title = $stateParams.title
@@ -61,8 +61,24 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
     }
 
     $scope.removeMoment = function(post) {
-        _.remove($scope.posts, post)
-        PostService.removeById(post._id)
+        $ionicPopup.show({
+            template: '<p>你真想删除呗？</p>',
+            title: '请确认',
+            scope: $scope,
+            buttons: [
+                {
+                    text: '按错啦！',
+                    type: 'button-positive',
+                },
+                {
+                    text: '<b>删啦！</b>',
+                    onTap: function(e) {
+                        _.remove($scope.posts, post)
+                        PostService.removeById(post._id)
+                    }
+                }
+            ]
+        });
     }
 
     $scope.openUserMoments = function(user) {

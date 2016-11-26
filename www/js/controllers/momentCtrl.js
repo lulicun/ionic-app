@@ -104,41 +104,51 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		}, function(error) {});
 	}
 
+	function loginConfirm() {
+		$ionicPopup.show({
+			template: '<p>只有登录后，老少爷们才知道是你发哩状态呀!</p>',
+			title: '登录后才能发到梁山圈',
+			subTitle: '登录请求',
+			scope: $scope,
+			buttons: [
+				{ text: '算啦！' },
+				{
+					text: '<b>去登录！</b>',
+					type: 'button-positive',
+					onTap: function(e) {
+						$state.go('signin');
+					}
+				}
+			]
+		});
+	}
+
 	$scope.createPost = function() {
 		if ($rootScope.isLoggedIn) {
 			$state.go('tab.moment-create');
 		} else {
-			var myPopup = $ionicPopup.show({
-				template: '<p>只有登录后，老少爷们才知道是你发哩状态呀!</p>',
-				title: '登录后才能发到梁山圈',
-				subTitle: '登录请求',
-				scope: $scope,
-				buttons: [
-					{ text: '算啦！' },
-					{
-						text: '<b>去登录！</b>',
-						type: 'button-positive',
-						onTap: function(e) {
-							$state.go('signin');
-						}
-					}
-				]
-			});
+			loginConfirm();
 		}
 	}
 
 	$scope.addLike = function(post) {
-		if (objectInArray(post.likes, 'from._id', $rootScope.user._id)) return;
-		PostService.like(post).then(function(data) {
-			post.likes.push({
-				from: {
-					_id: $rootScope.user._id,
-					username: $rootScope.user.username,
-					nickname: $rootScope.user.nickname,
-					face: $rootScope.face
-				}
-			});
-		}, function(err) {});
+		if ($rootScope.isLoggedIn) {
+			if (objectInArray(post.likes, 'from._id', $rootScope.user._id)) return;
+			PostService.like(post).then(function(data) {
+				post.likes.push({
+					from: {
+						_id: $rootScope.user._id,
+						username: $rootScope.user.username,
+						nickname: $rootScope.user.nickname,
+						face: $rootScope.face
+					}
+				});
+			}, function(err) {});
+		} else {
+			loginConfirm();
+		}
+
+
 	};
 
 	$scope.toggleComments = function(post) {
@@ -146,24 +156,28 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	};
 
 	$scope.addComment = function(post) {
-		if(post.newComment && post.newComment.content && post.newComment.content.split(':')[1] != ' ') {
-            if (post.newComment.to && post.newComment.content.split(':')[0] != `@${post.newComment.to.nickname}`) {
-                post.newComment.to = null
-            }
-            PostService.comment(post).then(function(data) {
-                post.comments.push({
-                    from: {
-                        _id: $rootScope.user._id,
-                        username: $rootScope.user.username,
-                        nickname: $rootScope.user.nickname,
-                        face: $rootScope.user.face
-                    },
-                    to: post.newComment.to || null,
-                    text: post.newComment.content
-                });
-                post.newComment = null;
-            }, function(err) {});
-        }
+		if ($rootScope.isLoggedIn) {
+			if(post.newComment && post.newComment.content && post.newComment.content.split(':')[1] != ' ') {
+	            if (post.newComment.to && post.newComment.content.split(':')[0] != `@${post.newComment.to.nickname}`) {
+	                post.newComment.to = null
+	            }
+	            PostService.comment(post).then(function(data) {
+	                post.comments.push({
+	                    from: {
+	                        _id: $rootScope.user._id,
+	                        username: $rootScope.user.username,
+	                        nickname: $rootScope.user.nickname,
+	                        face: $rootScope.user.face
+	                    },
+	                    to: post.newComment.to || null,
+	                    text: post.newComment.content
+	                });
+	                post.newComment = null;
+	            }, function(err) {});
+	        }
+		} else {
+			loginConfirm();
+		}
 	};
 
 	$scope.replyComment = function(post, comment) {

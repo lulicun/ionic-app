@@ -1,50 +1,62 @@
 'use strict';
 
-app.factory('ChatService', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
+app.factory('ChatService', function($http, $rootScope, $q, Config) {
+  var messages = [{
     id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
+    chat: 0,
+    content: 'hi',
+    from: '123',
+    to: '5838d5835ce79400110a6a14',
+    status: 'unread'
+  },
+  {
     id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
+    chat: 0,
+    content: 'hello',
+    from: '123',
+    to: '5838d5835ce79400110a6a14',
+    status: 'unread'
   }];
 
+
   return {
-    all: function() {
-      return chats;
+    getChatsByUid: function(uid) {
+      return $q(function(resolve, reject) {
+        $http.get(`${Config.apiEndpoint()}api/v1/${uid}/chats`, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
     },
     remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
+      //chats.splice(chats.indexOf(chat), 1);
     },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
+    getMessagesByCid: function(cid) {
+      return $q(function(resolve, reject) {
+        $http.get(`${Config.apiEndpoint()}api/v1/chats/${cid}/messages`, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    getUnreadMessages: function(chatId, callback) {
+      callback(null, messages)
     }
   };
 });

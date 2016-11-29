@@ -85,6 +85,10 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
         $state.go('tab.moment-userMoment', {uid: user._id, title: user.nickname || user.username});
     }
 
+    $scope.createChat = function(poster) {
+        console.log(poster)
+    }
+
     var objectInArray = function(arr, attr, val) {
         for (var i = 0; i < arr.length; i++) {
             if(_.get(arr[i], attr) == val) return true;

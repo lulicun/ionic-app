@@ -1,5 +1,11 @@
 'use strict';
 
 app.controller('ChatDetailCtrl', function($scope, $stateParams, ChatService) {
-  $scope.chat = ChatService.get($stateParams.chatId);
+  $scope.messages = [];
+
+  ChatService.getMessagesByCid($stateParams.chatId).then(function(messages) {
+    $scope.messages = $scope.messages.concat(messages)
+  }, function(error) {
+
+  })
 })

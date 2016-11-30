@@ -9,13 +9,21 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, ChatService, $io
       }, function(err) {
 
       })
-    })
-
+  })
 
   $scope.messages = [];
   ChatService.getMessagesByCid($stateParams.chatId).then(function(messages) {
-  $scope.messages = $scope.messages.concat(messages)
+    $scope.messages = $scope.messages.concat(messages)
   }, function(error) {
 
   })
+
+  $scope.sendMessage = function(sendMessageForm) {
+    let messagePayload = {
+      chat: chat._id,
+      content: $scope.input.message,
+      from: $rootScope.user._id
+    }
+    $scope.messages.push(messagePayload)
+  }
 })

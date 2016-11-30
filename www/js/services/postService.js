@@ -149,7 +149,9 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
             }
         })
         .success(function(data, status, headers, config) {
-          newComments = data.comments;
+          if (data) {
+            newComments = data.comments;
+          }
           resolve(data);
         })
         .error(function(data, status, headers, config) {

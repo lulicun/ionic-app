@@ -1,6 +1,6 @@
 'use strict'
 
-app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $stateParams, $ionicPopup, PostService) {
+app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $stateParams, $ionicPopup, PostService, ChatService) {
     $scope.posts = []
 
     $scope.title = $stateParams.title
@@ -86,7 +86,12 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
     }
 
     $scope.createChat = function(poster) {
-        console.log(poster)
+        ChatService.createChat(poster._id).then(function(data) {
+            $rootScope.redirectToChatId = data.chat._id
+            $state.go('tab.chats')
+        }, function(err) {
+            console.log(err)
+        })
     }
 
     var objectInArray = function(arr, attr, val) {

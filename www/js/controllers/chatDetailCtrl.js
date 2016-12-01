@@ -1,29 +1,45 @@
 'use strict';
 
-app.controller('ChatDetailCtrl', function($scope, $stateParams, ChatService, $ionicHistory) {
+app.controller('ChatDetailCtrl', function($scope, $rootScope, $stateParams, ChatService, $ionicHistory) {
 
   $scope.$on('$ionicView.enter', function(e) {
     ChatService.getChatByCid($stateParams.chatId).then(function(chat) {
-      console.log(chat)
       $scope.chat = chat
-      }, function(err) {
-
-      })
+      }, function(err) {})
   })
+
+
+  function gotoBottom(id){
+     let ele = document.getElementById(id)
+     ele.scrollTop = ele.scrollHeight;
+  }
 
   $scope.messages = [];
   ChatService.getMessagesByCid($stateParams.chatId).then(function(messages) {
     $scope.messages = $scope.messages.concat(messages)
+    setTimeout(function() {
+      gotoBottom('chat-detail')
+    }, 0)
   }, function(error) {
 
   })
-
-  $scope.sendMessage = function(sendMessageForm) {
+  $scope.input = {
+    message: ''
+  }
+  $scope.sendMessage = function() {
     let messagePayload = {
-      chat: chat._id,
+      chat: $scope.chat._id,
       content: $scope.input.message,
       from: $rootScope.user._id
     }
-    $scope.messages.push(messagePayload)
+    $scope.input = {
+      message: ''
+    }
+    ChatService.createChatMessage(messagePayload).then(function(res) {
+      $scope.messages.push(res.message)
+      setTimeout(function() {
+        gotoBottom('chat-detail')
+      }, 0)
+    }, function(error) {})
   }
 })

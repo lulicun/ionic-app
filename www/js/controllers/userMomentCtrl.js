@@ -12,8 +12,30 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
         });
 	}, function(err) {});
 
+    function loginConfirm() {
+        $ionicPopup.show({
+            template: '<p>需要登录才行哩！</p>',
+            title: '需要登录',
+            subTitle: '登录请求',
+            scope: $scope,
+            buttons: [
+                { text: '算啦！' },
+                {
+                    text: '<b>去登录！</b>',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        $state.go('signin');
+                    }
+                }
+            ]
+        });
+    }
 
     $scope.addLike = function(post) {
+        if(!$rootScope.user) {
+            loginConfirm()
+            return
+        }
         if (objectInArray(post.likes, 'from._id', $rootScope.user._id)) return;
         PostService.like(post).then(function(data) {
             post.likes.push({
@@ -28,6 +50,10 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
     };
 
     $scope.addComment = function(post) {
+        if(!$rootScope.user) {
+            loginConfirm()
+            return
+        }
         if(post.newComment && post.newComment.content && post.newComment.content.split(':')[1] != ' ') {
             if (post.newComment.to && post.newComment.content.split(':')[0] != `@${post.newComment.to.nickname}`) {
                 post.newComment.to = null
@@ -86,6 +112,10 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
     }
 
     $scope.createChat = function(poster) {
+        if(!$rootScope.user) {
+            loginConfirm()
+            return
+        }
         ChatService.createChat(poster._id).then(function(data) {
             $rootScope.redirectToChatId = data.chat._id
             $state.go('tab.chats')

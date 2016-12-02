@@ -74,7 +74,9 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		});
 		if ($rootScope.user) {
 			PostService.getNewComment().then(function(data) {
-				$scope.newComments = data.comments;
+				if (data) {
+					$scope.newComments = data.comments;
+				}
 			}, function(error) {});
 		}
 	}

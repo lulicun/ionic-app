@@ -13,11 +13,13 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
         $rootScope.redirectToChatId = null
       }, 0)
     } else {
-      ChatService.getChatsByUid($rootScope.user._id).then(function(data) {
-        $rootScope.chats = data
-      }, function(error) {
+      if ($rootScope.user) {
+        ChatService.getChatsByUid($rootScope.user._id).then(function(data) {
+          $rootScope.chats = data
+        }, function(error) {
 
-      })
+        })
+      }
     }
   });
 
@@ -27,6 +29,7 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
   }
 
   $scope.remove = function(chat) {
-    ChatService.remove(chat);
+    _.remove($scope.chats, chat)
+    ChatService.removeChatByCid(chat._id);
   };
 })

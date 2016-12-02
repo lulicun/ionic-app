@@ -8,8 +8,10 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
   //
   $scope.$on('$ionicView.enter', function(e) {
     if ($rootScope.redirectToChatId) {
-      $state.go('tab.chat-detail', {chatId: $rootScope.redirectToChatId})
-      $rootScope.redirectToChatId = null
+      setTimeout(function() {
+        $state.go('tab.chat-detail', {chatId: $rootScope.redirectToChatId})
+        $rootScope.redirectToChatId = null
+      }, 0)
     } else {
       ChatService.getChatsByUid($rootScope.user._id).then(function(data) {
         $rootScope.chats = data

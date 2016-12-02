@@ -1,27 +1,10 @@
 'use strict';
 
 app.factory('ChatService', function($http, $rootScope, $q, Config) {
-  var messages = [{
-    id: 1,
-    chat: 0,
-    content: 'hi',
-    from: '123',
-    to: '5838d5835ce79400110a6a14',
-    status: 'unread'
-  },
-  {
-    id: 2,
-    chat: 0,
-    content: 'hello',
-    from: '123',
-    to: '5838d5835ce79400110a6a14',
-    status: 'unread'
-  }];
-
 
   return {
     createChat: function(uid) {
-      let data = {
+      var data = {
         owners: [$rootScope.user._id, uid]
       }
       return $q(function(resolve, reject) {
@@ -73,9 +56,6 @@ app.factory('ChatService', function($http, $rootScope, $q, Config) {
         });
       });
     },
-    remove: function(chat) {
-      //chats.splice(chats.indexOf(chat), 1);
-    },
     createChatMessage: function(message) {
       return $q(function(resolve, reject) {
         $http.post(Config.apiEndpoint() + 'api/v1/chats/' + message.chat + '/messages',
@@ -109,9 +89,6 @@ app.factory('ChatService', function($http, $rootScope, $q, Config) {
           reject(data);
         });
       });
-    },
-    getUnreadMessages: function(chatId, callback) {
-      callback(null, messages)
     }
   };
 });

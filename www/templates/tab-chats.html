@@ -5,7 +5,7 @@
         <img ng-src="{{chat.face || './img/default_photo.png'}}">
         <h2>{{chat.name}}</h2>
         <p>{{chat.last_text}}</p>
-        <a ng-show="chat.unread_by.length > 0">未读</a>
+        <a ng-show="chat.unread_by.indexOf(user._id) > -1">未读</a>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
         <ion-option-button class="button-assertive" ng-click="remove(chat)">

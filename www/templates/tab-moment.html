@@ -2,7 +2,7 @@
   <ion-nav-buttons side="right">
     <a class="button button-icon icon ion-ios-plus-outline create-post-button" ng-click="createPost()"></a>
   </ion-nav-buttons>
-  <ion-content class="padding ion-content-position" on-scroll-top="refresh" on-scroll-bottom="getMore">
+  <ion-content class="padding ion-content-position" on-scroll-top="refresh">
     <button class="button button-full" style="color: white; background: red; /* For browsers that do not support gradients */
       background: -webkit-linear-gradient(-90deg, #0c60ee, red); /* For Safari 5.1 to 6.0 */
       background: -o-linear-gradient(-90deg, #0c60ee, red); /* For Opera 11.1 to 12.0 */
@@ -47,6 +47,10 @@
         </ion-list>
       </div>
     </div>
-    <!-- <button class="button button-full icon-right ion-more" ng-click="getMore()">更多</button> -->
+    <button class="button button-full icon-right ion-more" ng-click="getMore()" style="color: white; background: red; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(-90deg, #0c60ee, red); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(-90deg, #0c60ee, red); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(-90deg, #0c60ee, red); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(-90deg, #0c60ee, red);">更多</button>
   </ion-content>
 </ion-view>

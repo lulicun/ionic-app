@@ -1,0 +1,30 @@
+<ion-view view-title="登录">
+  <ion-content class="ion-content-position">
+    <form name="signInForm" novalidate ng-submit="submit(user)">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">账号</span>
+          <input type="text" ng-model="user.username">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">密码</span>
+          <input type="password" ng-model="user.password">
+        </label>
+        <button class="button button-block button-positive" ng-click="signIn(user)">
+          登录
+        </button>
+      </div>
+    </form>
+    <div ng-show="errorMsg" align="center" style="color: red">
+      <i class="icon ion-close-circled"></i>{{errorMsg}}
+    </div>
+    <div class="padding">
+      <!-- <p class="text-center">
+        <a href="#/forgot-password">忘记密码</a>
+      </p> -->
+      <p class="text-center">
+        <a href="#/sign-up">注册</a>
+      </p>
+    </div>
+  </ion-content>
+</ion-view>

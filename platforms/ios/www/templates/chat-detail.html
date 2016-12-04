@@ -1,0 +1,58 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view view-title="{{chat.name}}">
+  <ion-content class="padding" style="overflow: hidden; margin-top: 12px;">
+
+    <div style="overflow-y: auto; height: 85%;" id='chat-message-list'>
+      <div ng-repeat="message in messages" style="margin-top: 15px;">
+        <div ng-if="user._id !== message.from._id" class="message-block" style="text-align: left;">
+          <img ng-click="viewProfile(message)" class="profile-pic" style="float: left;"
+                ng-src="{{message.from.face || './img/default_photo.png'}}"/>
+          <!-- <span ng-click="viewProfile(message)"
+                style="font-weight: bold;">{{message.from.nickname}}</span> -->
+          <div class="chat-bubble left">
+            <div class="message-detail">
+              <p class="message-time">{{calendar(message.created_at)}}</p>
+              <span>{{message.content}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div ng-if="user._id === message.from._id" class="message-block" style="text-align: right;">
+
+          <img ng-click="viewProfile(message)" class="profile-pic" style="float: right;"
+                ng-src="{{user.face || './img/default_photo.png'}}"/>
+          <!-- <span ng-click="viewProfile(message)"
+              style="font-weight: bold;">{{user.nickname}}</span> -->
+          <div class="chat-bubble right">
+            <div class="message-detail">
+                <p class="message-time">{{calendar(message.created_at)}}</p>
+                <span>{{message.content}}</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="cf"></div>
+
+      </div>
+    </div>
+    <form name="sendMessageForm" ng-submit="sendMessage()" style="position: relative; bottom: 0px; width: 100%;" novalidate>
+      <ion-footer-bar class="bar-stable item-input-inset message-footer chat-footer-bar" style="position: relative;">
+        <label style="width: 100% !important;">
+            <textarea ng-model="input.message" value="" placeholder="跟 {{chat.name}} 拉个呱..." required minlength="1" maxlength="1500" style="width: 100%;" ng-focus="gotoBottom('chat-message-list')"></textarea>
+        </label>
+        <div>
+          <button class="button button-icon icon ion-android-send" type="submit"
+              ng-disabled="!input.message || input.message === ''">
+          </button>
+        </div>
+      </ion-footer-bar>
+    </form>
+  </ion-content>
+</ion-view>

@@ -3,10 +3,6 @@
 
 node_modules/
 platforms/
-plugins/*
-
-!plugins/ios.json
-!plugins/fetch.json
 
 hooks/
 www/lib/

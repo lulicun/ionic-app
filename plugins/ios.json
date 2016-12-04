@@ -6,7 +6,12 @@
     "config_munge": {
         "files": {}
     },
-    "installed_plugins": {},
+    "installed_plugins": {
+        "phonegap-plugin-push": {
+            "SENDER_ID": "liangshanquan",
+            "PACKAGE_NAME": "com.ionicframework.nodeionic343707"
+        }
+    },
     "dependent_plugins": {
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.ionicframework.nodeionic343707"

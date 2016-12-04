@@ -53,7 +53,12 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		}
     });
 
+	var isLoading = false
 	$scope.refresh = function() {
+		if (isLoading) {
+			return
+		}
+		isLoading = true
 		$ionicLoading.show({
 			template: '求其一等...'
         });
@@ -63,11 +68,13 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 				item.created_at_from_now = moment(new Date(item.created_at)).fromNow();
 				$scope.posts.push(item)
 	        });
+	        isLoading = false
 	        $ionicLoading.hide();
 		}, function(error) {
 			$ionicLoading.show({
 				template: '网络错误...'
 	        });
+	        isLoading = false
 	        setTimeout(function() {
 				$ionicLoading.hide();
 	        }, 3000);

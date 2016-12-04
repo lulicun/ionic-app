@@ -32,7 +32,6 @@ app.controller('SignInCtrl', function($scope, $rootScope, $ionicLoading, $localS
 
 			$rootScope.isLoggedIn = true;
 
-			//TODO: Handle promise return
 			DeviceService.addUser(result.user._id);
 
 			setTimeout(function() {

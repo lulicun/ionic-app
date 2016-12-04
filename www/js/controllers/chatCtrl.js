@@ -19,6 +19,8 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
         }, function(error) {
 
         })
+      } else {
+        $rootScope.chats = []
       }
     }
   });

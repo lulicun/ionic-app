@@ -1,0 +1,29 @@
+<ion-view view-title="具体事">
+    <ion-content class="padding ion-content-position">
+        <div class="item item-divider">
+            <img ng-src="{{post.posted_by.face || './img/default_photo.png'}}" style="width: 25px; height: 25px">
+            {{post.posted_by.nickname}}
+        </div>
+        <div class="item item-body post-item-body">
+            <div>
+              {{post.content}}
+              <img ng-src="{{post.images[0].src}}" ng-show="post.images.length > 0" style="width: 50px; height: 50px; float: right;">
+              <p class="post-created-at"><small>{{post.created_at_from_now}}</small></p>
+            </div>
+            <div class="post-feedback">
+              <a class="button button-icon icon ion-ios-heart-outline" ng-click="addLike(post)">{{post.likes.length}}</a>
+              <a class="button button-icon icon ion-ios-chatbubble-outline" ng-click="toggleComments(post)">{{post.comments.length}}</a>
+            </div>
+            <ion-list>
+              <ion-item ng-repeat="comment in post.comments" class="post-comment-item">
+                <p ng-click="replyComment(post, comment)">
+                  <img ng-src="{{comment.from.face || './img/default_photo.png'}}" style="width: 20px; height: 20px">
+                  <b>{{comment.from.nickname}}:</b> {{comment.text}}
+                </p>
+              </ion-item>
+              <input type="text" class="new-comment-input" auto-focus="{{post.autoFocus}}" placeholder="说两句呗..." ng-model="post.newComment.content">
+              <a class="button button-icon icon ion-paper-airplane" ng-click="addComment(post)"></a>
+            </ion-list>
+        </div>
+    </ion-content>
+</ion-view>

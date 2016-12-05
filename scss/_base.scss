@@ -2,3 +2,18 @@
     border-bottom: red 2px solid;
     border-top: red 2px solid;
 }
+
+.bar-header {
+    height: 65px;
+    background-color: #0c60ee;
+    .header-item {
+        top: 18px;
+    }
+    .buttons-right {
+        margin-top: 20px;
+    }
+}
+
+.ion-content-position {
+    padding-top: 25px;
+}

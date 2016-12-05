@@ -3,6 +3,9 @@
 
 node_modules/
 
+platforms/
+!plateforms/platforms.json
+
 hooks/
 www/lib/
 www/css/ionic.app.css

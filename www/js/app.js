@@ -73,6 +73,7 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
       if ($rootScope.pushNotification) {
         $rootScope.pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, 0);
       }
+      //TODO: get chatBadge, get momentChat
       $rootScope.$broadcast('onResume');
   }, false);
 

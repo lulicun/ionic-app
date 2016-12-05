@@ -23,7 +23,7 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
     // Reference: https://github.com/phonegap/phonegap-plugin-push
     var push = PushNotification.init({
         android: {
-            senderID: "12345679"
+            senderID: "liangshanquan"
         },
         ios: {
             alert: "true",
@@ -50,9 +50,10 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
     });
 
     push.on('notification', function(data) {
-      push.getApplicationIconBadgeNumber(function(n) {
-          push.setApplicationIconBadgeNumber(function() {}, function() {}, ++n);
-      }, function() {});
+      // push.getApplicationIconBadgeNumber(function(n) {
+      //   alert('current' + n)
+      //     push.setApplicationIconBadgeNumber(function() {}, function() {}, ++n);
+      // }, function() {});
       // data.message,
       // data.title,
       // data.count,
@@ -69,6 +70,9 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
   }, false);
 
   document.addEventListener("resume", function() {
+      if ($rootScope.pushNotification) {
+        $rootScope.pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, 0);
+      }
       $rootScope.$broadcast('onResume');
   }, false);
 

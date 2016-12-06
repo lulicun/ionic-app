@@ -72,6 +72,22 @@ app.factory('ChatService', function($http, $rootScope, $q, Config) {
         });
       });
     },
+    getUnreadChatsByUid: function(uid) {
+      return $q(function(resolve, reject) {
+        $http.get(`${Config.apiEndpoint()}api/v1/${uid}/unread-chats`, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
     createChatMessage: function(message) {
       return $q(function(resolve, reject) {
         $http.post(Config.apiEndpoint() + 'api/v1/chats/' + message.chat + '/messages',

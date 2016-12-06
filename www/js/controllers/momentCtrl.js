@@ -14,6 +14,7 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		PostService.getNewComment().then(function(data) {
 			if (data) {
 				$scope.newComments = data.comments;
+				$rootScope.momentBadge = data.comments.length;
 			}
 		}, function(error) {});
 	}
@@ -49,6 +50,7 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		if ($rootScope.user) {
 			PostService.getNewComment().then(function(data) {
 				$scope.newComments = data.comments;
+				$rootScope.momentBadge = data.comments.length;
 			}, function(error) {});
 		}
     });
@@ -83,6 +85,7 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 			PostService.getNewComment().then(function(data) {
 				if (data) {
 					$scope.newComments = data.comments;
+					$rootScope.momentBadge = data.comments.length;
 				}
 			}, function(error) {});
 		}
@@ -109,6 +112,7 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		});
 		PostService.getNewComment().then(function(data) {
 			$scope.newComments = data.comments;
+			$rootScope.momentBadge = data.comments.length;
 		}, function(error) {});
 	}
 
@@ -203,6 +207,7 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	}
 
 	$scope.openNewComments = function() {
+		$rootScope.momentBadge = 0;
 		$scope.newComments = [];
 		PostService.removeNewComment();
 		$state.go('tab.moment-comment');

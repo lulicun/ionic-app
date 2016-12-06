@@ -16,9 +16,12 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
       if ($rootScope.user) {
         ChatService.getChatsByUid($rootScope.user._id).then(function(data) {
           $rootScope.chats = data
-        }, function(error) {
-
-        })
+        }, function(error) {})
+        ChatService.getUnreadChatsByUid($rootScope.user._id).then(function(data) {
+          if (data) {
+            $rootScope.chatBadge = data.length
+          }
+        }, function(err){})
       } else {
         $rootScope.chats = []
       }
@@ -26,6 +29,9 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
   });
 
   $scope.openChatDetails = function(chat) {
+    if (chat.unread_by.indexOf($rootScope.user._id) > -1) {
+      $rootScope.chatBadge = $rootScope.chatBadge-1;
+    }
     chat.unread_by = []
     $state.go('tab.chat-detail', {chatId: chat._id})
   }

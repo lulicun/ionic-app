@@ -130,4 +130,25 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
         }
         return false;
     }
+
+    $scope.report = function(poster) {
+        $ionicPopup.show({
+            template: "<p>请填写举报内容:</p><textarea rows='4' cols='50'/>",
+            title: '举报',
+            scope: $scope,
+            buttons: [
+                {
+                    text: '按错啦！',
+                    type: 'button-positive',
+                },
+                {
+                    text: '<b>举报</b>',
+                    onTap: function(e) {
+                        console.log(poster)
+                        alert('report')
+                    }
+                }
+            ]
+        });
+    }
 })

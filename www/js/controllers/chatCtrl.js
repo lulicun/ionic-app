@@ -40,4 +40,9 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
     _.remove($scope.chats, chat)
     ChatService.removeChatByCid(chat._id);
   };
+
+  $scope.block = function(chat) {
+    alert('block this user')
+    // TODO: FIGURE OUT HOW TO BLOCK A CHAT
+  }
 })

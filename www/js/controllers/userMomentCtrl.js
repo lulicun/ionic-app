@@ -1,6 +1,6 @@
 'use strict'
 
-app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $stateParams, $ionicPopup, PostService, ChatService) {
+app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $stateParams, $ionicPopup, PostService, ChatService, UserService) {
     $scope.posts = []
 
     $scope.title = $stateParams.title
@@ -130,10 +130,10 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
         }
         return false;
     }
-
+    $scope.report = {}
     $scope.report = function(poster) {
         $ionicPopup.show({
-            template: "<p>请填写举报内容:</p><textarea rows='4' cols='50'/>",
+            template: "<p>请填写举报内容:</p><textarea ng-model='report.content' rows='4' cols='50'/>",
             title: '举报',
             scope: $scope,
             buttons: [
@@ -144,8 +144,10 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
                 {
                     text: '<b>举报</b>',
                     onTap: function(e) {
-                        console.log(poster)
-                        alert('report')
+                        UserService.report({
+                            defendant: poster._id,
+                            content: $scope.report.content
+                        })
                     }
                 }
             ]

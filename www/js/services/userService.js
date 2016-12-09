@@ -44,6 +44,24 @@ app.factory('UserService', function($http, $q, $rootScope, Config) {
           reject(data);
         });
       });
+    },
+
+    report: function(data) {
+      return $q(function(resolve, reject) {
+        $http.post(`${Config.apiEndpoint()}api/v1/users/${data.defendant}/report`, {
+          content: data.content
+        }, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        }).success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
     }
   };
 });

@@ -8,7 +8,7 @@ app.controller('ChatDetailCtrl', function($scope, $rootScope, $stateParams, Chat
   $scope.$on('$ionicView.enter', function(e) {
     ChatService.getChatByCid($stateParams.chatId).then(function(chat) {
       $scope.chat = chat
-      }, function(err) {})
+    }, function(err) {})
   })
 
 
@@ -41,7 +41,9 @@ app.controller('ChatDetailCtrl', function($scope, $rootScope, $stateParams, Chat
       message: ''
     }
     ChatService.createChatMessage(messagePayload).then(function(res) {
-      res.message.from = $rootScope.user
+      if (res.success) {
+        res.message.from = $rootScope.user
+      }
       $scope.messages.push(res.message)
       setTimeout(function() {
         gotoBottom('chat-message-list')

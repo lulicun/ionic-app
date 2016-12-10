@@ -41,8 +41,17 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
     ChatService.removeChatByCid(chat._id);
   };
 
-  $scope.block = function(chat) {
-    alert('block this user')
-    // TODO: FIGURE OUT HOW TO BLOCK A CHAT
+  $scope.block = function(chat, $event) {
+    $event.stopPropagation()
+    ChatService.blockChat(chat._id, true).then(function(data) {
+      chat.blocked_by = [$rootScope.user._id]
+    }, function(err) {})
+  }
+
+  $scope.unblock = function(chat, $event) {
+    $event.stopPropagation()
+    ChatService.blockChat(chat._id, false).then(function(data) {
+      chat.blocked_by = []
+    }, function(err) {})
   }
 })

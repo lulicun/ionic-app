@@ -9,37 +9,33 @@
 
     <div style="overflow-y: auto; height: 85%;" id='chat-message-list'>
       <div ng-repeat="message in messages" style="margin-top: 15px;">
-        <div ng-if="user._id !== message.from._id" class="message-block" style="text-align: left;">
-          <img ng-click="viewProfile(message)" class="profile-pic" style="float: left;"
-                ng-src="{{message.from.face || './img/default_photo.png'}}"/>
-          <!-- <span ng-click="viewProfile(message)"
-                style="font-weight: bold;">{{message.from.nickname}}</span> -->
-          <div class="chat-bubble left">
-            <div class="message-detail">
-              <p class="message-time">{{calendar(message.created_at)}}</p>
-              <span>{{message.content}}</span>
-            </div>
-          </div>
+        <div ng-if="message == 'blocked'" style="text-align: center; color: gray; font-size: smaller;">
+          <span ng-if="chat.blocked_by && chat.blocked_by.indexOf(user._id) > -1">对不起，请解禁对方后再发送消息！</span>
+          <span ng-if="chat.blocked_by && chat.blocked_by.indexOf(user._id) < 0">对不起，对方屏蔽了你的消息！</span>
         </div>
-
-        <div ng-if="user._id === message.from._id" class="message-block" style="text-align: right;">
-
-          <img ng-click="viewProfile(message)" class="profile-pic" style="float: right;"
-                ng-src="{{user.face || './img/default_photo.png'}}"/>
-          <!-- <span ng-click="viewProfile(message)"
-              style="font-weight: bold;">{{user.nickname}}</span> -->
-          <div class="chat-bubble right">
-            <div class="message-detail">
+        <div ng-if="message !== 'blocked'">
+          <div ng-if="user._id !== message.from._id" class="message-block" style="text-align: left;">
+            <img ng-click="viewProfile(message)" class="profile-pic" style="float: left;"
+                  ng-src="{{message.from.face || './img/default_photo.png'}}"/>
+            <div class="chat-bubble left">
+              <div class="message-detail">
                 <p class="message-time">{{calendar(message.created_at)}}</p>
                 <span>{{message.content}}</span>
+              </div>
             </div>
-
           </div>
-
+          <div ng-if="user._id === message.from._id" class="message-block" style="text-align: right;">
+            <img ng-click="viewProfile(message)" class="profile-pic" style="float: right;"
+                  ng-src="{{user.face || './img/default_photo.png'}}"/>
+            <div class="chat-bubble right">
+              <div class="message-detail">
+                  <p class="message-time">{{calendar(message.created_at)}}</p>
+                  <span>{{message.content}}</span>
+              </div>
+            </div>
+          </div>
         </div>
-
         <div class="cf"></div>
-
       </div>
     </div>
     <form name="sendMessageForm" ng-submit="sendMessage()" style="position: relative; bottom: 0px; width: 100%;" novalidate>

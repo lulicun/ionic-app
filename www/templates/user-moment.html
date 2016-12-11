@@ -1,24 +1,24 @@
 <ion-view view-title="{{title}}">
   <ion-content class="padding ion-content-position">
-
       <div style="text-align: center; position: relative; background: red; /* For browsers that do not support gradients */
         background: -webkit-linear-gradient(-90deg, #0c60ee, red); /* For Safari 5.1 to 6.0 */
         background: -o-linear-gradient(-90deg, #0c60ee, red); /* For Opera 11.1 to 12.0 */
         background: -moz-linear-gradient(-90deg, #0c60ee, red); /* For Firefox 3.6 to 15 */
         background: linear-gradient(-90deg, #0c60ee, red); /* Standard syntax */">
-      <img ng-src="{{posts[0].posted_by.face || './img/default_photo.png'}}" style="width: 100%;">
-      <span style="position: relative;
-                top: -4px;
-                left: 10px;
-                float: left;
-                color: white;">
-        <i class="icon ion-ios-chatboxes" style="font-size: 25px;" ng-click="createChat(posts[0].posted_by)" ng-hide="posts[0].posted_by._id == user._id"></i>
-      </span>
-      <span style="position: relative;
-                left: 20%;
-                color: white;
-                font-size: 20px;">{{title}}</span>
-    </div>
+        <span class="icon ion-speakerphone" style="color: white; font-size: 15px;" ng-click="report(posts[0].posted_by)" ng-hide="posts[0].posted_by._id == user._id">举报</span>
+        <img ng-src="{{posts[0].posted_by.face || './img/default_photo.png'}}" style="width: 100%;">
+        <span style="position: relative;
+                  top: -4px;
+                  left: 10px;
+                  float: left;
+                  color: white;">
+          <i class="icon ion-ios-chatboxes" style="font-size: 15px;" ng-click="createChat(posts[0].posted_by)" ng-hide="posts[0].posted_by._id == user._id">发私信</i>
+        </span>
+        <span style="position: relative;
+                  left: 20%;
+                  color: white;
+                  font-size: 20px;">{{title}}</span>
+      </div>
 
     <div class="list card customized-card" ng-repeat="post in posts">
       <div class="item item-body post-item-body">

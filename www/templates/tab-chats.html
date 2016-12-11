@@ -2,14 +2,22 @@
   <ion-content style="margin-top: 12px;">
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" ng-click="openChatDetails(chat)">
-        <img ng-src="{{chat.face || './img/default_photo.png'}}">
-        <h2>{{chat.name}}</h2>
-        <p>{{chat.last_text}}</p>
-        <a ng-show="chat.unread_by.indexOf(user._id) > -1">未读</a>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-
+          <img ng-src="{{chat.face || './img/default_photo.png'}}" ng-style="{opacity: chat.blocked_by && chat.blocked_by.indexOf(user._id) > -1 ? 0.3 : 1}">
+          <h2 ng-style="{opacity: chat.blocked_by && chat.blocked_by.indexOf(user._id) > -1 ? 0.3 : 1}">{{chat.name}}</h2>
+          <p ng-style="{opacity: chat.blocked_by && chat.blocked_by.indexOf(user._id) > -1 ? 0.3 : 1}">{{chat.last_text}}</p>
+          <a ng-show="chat.unread_by.indexOf(user._id) > -1" ng-style="{opacity: chat.blocked_by && chat.blocked_by.indexOf(user._id) > -1 ? 0.3 : 1}">未读</a>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        <!-- <ion-option-button class="button-energized" ng-click="report(chat)">
+          举报
+        </ion-option-button> -->
+        <ion-option-button ng-if='chat.blocked_by && chat.blocked_by.indexOf(user._id) > -1' class="button-dark" ng-click="unblock(chat, $event)">
+          解禁
+        </ion-option-button>
+        <ion-option-button ng-if='!chat.blocked_by || chat.blocked_by.indexOf(user._id) < 0' class="button-dark" ng-click="block(chat, $event)">
+          屏蔽
+        </ion-option-button>
         <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
+          删除
         </ion-option-button>
       </ion-item>
     </ion-list>

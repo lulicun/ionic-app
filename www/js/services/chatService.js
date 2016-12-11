@@ -121,6 +121,24 @@ app.factory('ChatService', function($http, $rootScope, $q, Config) {
           reject(data);
         });
       });
+    },
+    blockChat: function(cid, isBlock) {
+      return $q(function(resolve, reject) {
+        $http.put(`${Config.apiEndpoint()}api/v1/chats/${cid}`, {
+          action: isBlock ? 'block' : 'unblock'
+        }, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
     }
   };
 });

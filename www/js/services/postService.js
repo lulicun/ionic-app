@@ -71,6 +71,33 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
         });
       });
     },
+    getByUid: function(uid) {
+      return $q(function(resolve, reject) {
+        $http.get(Config.apiEndpoint() + `users/${uid}/posts`)
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    removeById: function(pid) {
+      return $q(function(resolve, reject) {
+        $http.delete(Config.apiEndpoint() + `api/v1/posts/${pid}`, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
     like: function(post) {
       return $q(function(resolve, reject) {
         $http.post(Config.apiEndpoint() + 'api/v1/posts/' + post._id + '/likes',
@@ -97,7 +124,7 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
           {
             text: post.newComment.content,
             comment_from: $rootScope.user._id,
-            reply_to: post.newComment.to._id || null
+            reply_to: post.newComment.to ? post.newComment.to._id : null
           },
           {
             headers: {
@@ -122,7 +149,9 @@ app.factory('PostService', function($http, $rootScope, $q, Config) {
             }
         })
         .success(function(data, status, headers, config) {
-          newComments = data.comments;
+          if (data) {
+            newComments = data.comments;
+          }
           resolve(data);
         })
         .error(function(data, status, headers, config) {

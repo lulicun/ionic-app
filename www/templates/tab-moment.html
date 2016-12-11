@@ -2,31 +2,46 @@
   <ion-nav-buttons side="right">
     <a class="button button-icon icon ion-ios-plus-outline create-post-button" ng-click="createPost()"></a>
   </ion-nav-buttons>
-  <ion-content class="padding">
-    <button class="button button-full icon-right ion-refresh" ng-click="getNew()">刷新</button>
+  <ion-content class="padding ion-content-position" on-scroll-top="refresh">
+    <button class="button button-full" style="color: white; background: red; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(-90deg, #0c60ee, red); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(-90deg, #0c60ee, red); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(-90deg, #0c60ee, red); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(-90deg, #0c60ee, red); /* Standard syntax */" >大梁山，小圈子</button>
+ <!--    <button class="button button-full icon-right ion-refresh" ng-click="refresh()" style="color: white; background: red; /* For browsers that do not support gradients */
+        background: -webkit-linear-gradient(-90deg, #0c60ee, red); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(-90deg, #0c60ee, red); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(-90deg, #0c60ee, red); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(-90deg, #0c60ee, red); /* Standard syntax */" >刷新</button> -->
     <div class="post-new-comment" ng-show="user && newComments.length > 0" ng-click="openNewComments()">
-      <img ng-src="{{newComments[newComments.length-1].from.face}}" style="width: 30px; height: 30px">
+      <img ng-src="{{newComments[newComments.length-1].from.face || './img/default_photo.png'}}" style="width: 30px; height: 30px">
       {{newComments.length}}
     </div>
     <div class="list card customized-card" ng-repeat="post in posts">
-      <div class="item item-divider customized-card-item">
-        <img ng-src="{{post.posted_by.face}}" style="width: 25px; height: 25px">
-        {{post.posted_by.nickname}}
+      <div class="item item-divider customized-card-item" ng-click="openUserMoments(post.posted_by)">
+        <div style="float: left;">
+          <img ng-src="{{post.posted_by.face || './img/default_photo.png'}}" style="width: 25px; height: 25px">
+          {{post.posted_by.nickname}}
+        </div>
+        <div style="float: right;"></div>
       </div>
       <div class="item item-body post-item-body">
         <div>
           {{post.content}}
-          <ion-gallery ion-gallery-items="post.images"></ion-gallery>
-          <p class="post-created-at"><small>{{post.created_at_from_now}}</small></p>
+          <ion-gallery ion-gallery-items="post.images" ion-gallery-toggle="false"></ion-gallery>
         </div>
+        <div class="post-created-at"><small>{{post.created_at_from_now}}</small></div>
         <div class="post-feedback">
+          <a class="button button-icon icon ion-ios-trash-outline" ng-show="post.posted_by._id == user._id" ng-click="removeMoment(post)">删除</a>
           <a class="button button-icon icon ion-ios-heart-outline" ng-click="addLike(post)">{{post.likes.length}}</a>
           <a class="button button-icon icon ion-ios-chatbubble-outline" ng-click="toggleComments(post)">{{post.comments.length}}</a>
         </div>
         <ion-list ng-show="post.showComments">
           <ion-item ng-repeat="comment in post.comments" class="post-comment-item">
-            <p ng-click="replyComment(post, comment)">
-              <img ng-src="{{comment.from.face}}" style="width: 20px; height: 20px">
+            <span ng-click="openUserMoments(comment.from)">
+              <img ng-src="{{comment.from.face || './img/default_photo.png'}}" style="width: 20px; height: 20px">
+            </span>
+            <p ng-click="replyComment(post, comment)" class="post-comment-content">
               <b>{{comment.from.nickname}}:</b> {{comment.text}}
             </p>
           </ion-item>
@@ -35,6 +50,10 @@
         </ion-list>
       </div>
     </div>
-    <button class="button button-full icon-right ion-more" ng-click="getMore()">更多</button>
+    <button class="button button-full icon-right ion-more" ng-click="getMore()" style="color: white; background: red; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(-90deg, #0c60ee, red); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(-90deg, #0c60ee, red); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(-90deg, #0c60ee, red); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(-90deg, #0c60ee, red);">更多</button>
   </ion-content>
 </ion-view>

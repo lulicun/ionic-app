@@ -1,50 +1,144 @@
 'use strict';
 
-app.factory('ChatService', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
+app.factory('ChatService', function($http, $rootScope, $q, Config) {
 
   return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
+    createChat: function(uid) {
+      var data = {
+        owners: [$rootScope.user._id, uid]
       }
-      return null;
+      return $q(function(resolve, reject) {
+        $http.post(Config.apiEndpoint() + 'api/v1/chats',
+          data,
+          {
+            headers: {
+              'pk': $rootScope.keys.pk,
+              'sk': $rootScope.keys.sk
+            }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    getChatByCid: function(cid) {
+      return $q(function(resolve, reject) {
+        $http.get(`${Config.apiEndpoint()}api/v1/chats/${cid}`, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    removeChatByCid: function(cid) {
+      return $q(function(resolve, reject) {
+        $http.delete(`${Config.apiEndpoint()}api/v1/chats/${cid}`, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    getChatsByUid: function(uid) {
+      return $q(function(resolve, reject) {
+        $http.get(`${Config.apiEndpoint()}api/v1/${uid}/chats`, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    getUnreadChatsByUid: function(uid) {
+      return $q(function(resolve, reject) {
+        $http.get(`${Config.apiEndpoint()}api/v1/${uid}/unread-chats`, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    createChatMessage: function(message) {
+      return $q(function(resolve, reject) {
+        $http.post(Config.apiEndpoint() + 'api/v1/chats/' + message.chat + '/messages',
+          message,
+          {
+            headers: {
+              'pk': $rootScope.keys.pk,
+              'sk': $rootScope.keys.sk
+            }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    getMessagesByCid: function(cid) {
+      return $q(function(resolve, reject) {
+        $http.get(`${Config.apiEndpoint()}api/v1/chats/${cid}/messages`, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
+    },
+    blockChat: function(cid, isBlock) {
+      return $q(function(resolve, reject) {
+        $http.put(`${Config.apiEndpoint()}api/v1/chats/${cid}`, {
+          action: isBlock ? 'block' : 'unblock'
+        }, {
+          headers: {
+            'pk': $rootScope.keys.pk,
+            'sk': $rootScope.keys.sk
+          }
+        })
+        .success(function(data, status, headers, config) {
+          resolve(data);
+        })
+        .error(function(data, status, headers, config) {
+          reject(data);
+        });
+      });
     }
   };
 });

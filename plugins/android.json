@@ -1,0 +1,44 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "phonegap-plugin-push": {
+            "SENDER_ID": "liangshanquan",
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        },
+        "cordova-plugin-image-picker": {
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "co.liangshanquan.app"
+        }
+    }
+}

@@ -1,7 +1,7 @@
 // Ionic Starter App
 app = angular.module('ionic-app', ['ionic', 'ion-gallery', 'ngCordova'])
 
-app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, DeviceService) {
+app.run(function($ionicPlatform, $rootScope, $localStorage, DeviceService, ChatService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -14,56 +14,83 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    ionic.Platform.fullScreen();
+
+    if ($rootScope.user) {
+      ChatService.getUnreadChatsByUid($rootScope.user._id).then(function(data) {
+        if (data) {
+          $rootScope.chatBadge = data.length
+        }
+      }, function(err){})
+    }
   });
 
   document.addEventListener("deviceready", function(){
 
     // Reference: https://github.com/phonegap/phonegap-plugin-push
-    var push = PushNotification.init({
-        android: {
-            senderID: "12345679"
-        },
-        ios: {
-            alert: "true",
-            badge: "true",
-            sound: "true",
-            clearBadge: "true"
-        },
-        windows: {}
-    });
+    // var push = PushNotification.init({
+    //     android: {
+    //         senderID: "liangshanquan"
+    //     },
+    //     ios: {
+    //         alert: "true",
+    //         badge: "true",
+    //         sound: "true",
+    //         clearBadge: "true"
+    //     },
+    //     windows: {}
+    // });
 
-    push.on('registration', function(data) {
-        DeviceService.create({
-          device_id: data.registrationId,
-          type: 'ios' // TODO: Fix hard code
-        }).then(function(result) {
-          $rootScope.device_id = data.registrationId;
-        }, function(err) {
-          if (err.code == 409) {
-            $rootScope.device_id = data.registrationId;
-          } else {
-            alert('System Err: Failed to save your device ID.');
-          }
-        });
-    });
+    // push.on('registration', function(data) {
+    //     DeviceService.create({
+    //       device_id: data.registrationId,
+    //       type: 'ios' // TODO: Fix hard code
+    //     }).then(function(result) {
+    //       $rootScope.device_id = data.registrationId;
+    //     }, function(err) {
+    //       if (err.code == 409) {
+    //         $rootScope.device_id = data.registrationId;
+    //       } else {
+    //         alert('System Err: Failed to save your device ID.');
+    //       }
+    //     });
+    // });
 
-    push.on('notification', function(data) {
-      push.getApplicationIconBadgeNumber(function(n) {
-          push.setApplicationIconBadgeNumber(function() {}, function() {}, ++n);
-      }, function() {});
+    // push.on('notification', function(data) {
+      // push.getApplicationIconBadgeNumber(function(n) {
+      //   alert('current' + n)
+      //     push.setApplicationIconBadgeNumber(function() {}, function() {}, ++n);
+      // }, function() {});
       // data.message,
       // data.title,
       // data.count,
       // data.sound,
       // data.image,
       // data.additionalData
-    });
+    // });
 
-    push.on('error', function(e) {
-      alert('System Err: ' + e.message);
-    });
+    // push.on('error', function(e) {
+    //   alert('System Err: ' + e.message);
+    // });
 
-    $rootScope.pushNotification = push;
+    // $rootScope.pushNotification = push;
+  }, false);
+
+  document.addEventListener("resume", function() {
+      // if ($rootScope.pushNotification) {
+      //   $rootScope.pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, 0);
+      // }
+
+      if ($rootScope.user) {
+        ChatService.getUnreadChatsByUid($rootScope.user._id).then(function(data) {
+          if (data) {
+            $rootScope.chatBadge = data.length
+          }
+        }, function(err){})
+      }
+
+      $rootScope.$broadcast('onResume');
   }, false);
 
   if ($localStorage.getObject('keys')) {
@@ -76,7 +103,7 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
 
 })
 
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider, ionGalleryConfigProvider) {
 
   $stateProvider
     .state('signin', {
@@ -94,11 +121,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/forgot-password.html',
       controller: 'ForgotPasswordCtrl'
     })
-    // .state('post', {
-    //   url: '/post/:pid',
-    //   templateUrl: 'templates/post.html',
-    //   controller: 'PostCtrl'
-    // })
     .state('tab', {
       url: '/tab',
       abstract: true,
@@ -131,6 +153,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         'tab-moment': {
           templateUrl: 'templates/moment-create.html',
           controller: 'MomentCreateCtrl'
+        }
+      }
+    })
+    .state('tab.moment-userMoment', {
+      url: '/users/{uid}/moment/:title',
+      views: {
+        'tab-moment': {
+          templateUrl: 'templates/user-moment.html',
+          controller: 'UserMomentCtrl'
         }
       }
     })
@@ -175,5 +206,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/tab/moment');
 
   moment.locale('zh-cn');
+
+  ionGalleryConfigProvider.setGalleryConfig({
+    action_label: '关闭',
+    template_gallery: 'gallery.html',
+    template_slider: 'slider.html',
+    toggle: false,
+    row_size: 3,
+    fixed_row_size: true
+  });
 
 });

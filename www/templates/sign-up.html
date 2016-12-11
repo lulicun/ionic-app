@@ -1,5 +1,5 @@
 <ion-view view-title="注册">
-  <ion-content>
+  <ion-content class="ion-content-position" style="margin-top: 12px;">
     <form name="signUpForm" novalidate ng-submit="submit(user)">
       <div class="list">
         <label class="item item-input">
@@ -28,8 +28,11 @@
           <i class="icon ion-checkmark-circled"></i>注册完啦，登登试试吧！
         </div>
       </div>
+      <div style="font-size: 10px; text-align: center;">
+        <input type="checkbox" ng-model="readAndAgree"／>我已阅读并同意相关<a ng-click="serviceTerms()">服务条款</a>、<a ng-click="usageRules()">使用规范</a>和<a ng-click="privacyPolice()">隐私政策</a>
+      </div>
       <div class="padding">
-        <button class="button button-block button-positive" ng-disabled="signUpForm.$invalid" ng-click="signUp(user)" >
+        <button class="button button-block button-positive" ng-disabled="signUpForm.$invalid || !readAndAgree" ng-click="signUp(user)" >
           注册
         </button>
       </div>

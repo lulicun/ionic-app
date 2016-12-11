@@ -16,6 +16,7 @@
 }
 
 .post-feedback {
+    text-align: right;
     a {
         min-height: 36px;
         height: 36px;
@@ -24,12 +25,18 @@
 
 .post-created-at {
     margin-top: 0 !important;
+    position: absolute;
 }
 
 .post-comment-item {
     padding: 0;
     border-right: 0px;
     border-left: 0px;
+}
+
+.post-comment-content {
+    display: -webkit-inline-box;
+    width: 90%;
 }
 
 .post-new-comment {

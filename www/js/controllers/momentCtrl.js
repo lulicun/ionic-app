@@ -12,7 +12,10 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	}, function(error) {});
 	if ($rootScope.user) {
 		PostService.getNewComment().then(function(data) {
-			$scope.newComments = data.comments;
+			if (data) {
+				$scope.newComments = data.comments;
+				$rootScope.momentBadge = data.comments.length;
+			}
 		}, function(error) {});
 	}
 
@@ -25,11 +28,68 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		}
 	});
 
-	$ionicPlatform.on('resume', function(){
+	$rootScope.$on('onResume', function(){
+		$ionicLoading.show({
+			template: '求其一等...'
+        });
       	PostService.getTwenty((new Date()).getTime()).then(function(data) {
-			$scope.posts = addAttribute(data);
-		}, function(error) {});
+			$scope.posts = [];
+			data.map(function(item){
+				item.created_at_from_now = moment(new Date(item.created_at)).fromNow();
+				$scope.posts.push(item)
+	        });
+	        $ionicLoading.hide();
+		}, function(error) {
+			$ionicLoading.show({
+				template: '网络错误...'
+	        });
+	        setTimeout(function() {
+				$ionicLoading.hide();
+	        }, 3000);
+		});
+		if ($rootScope.user) {
+			PostService.getNewComment().then(function(data) {
+				$scope.newComments = data.comments;
+				$rootScope.momentBadge = data.comments.length;
+			}, function(error) {});
+		}
     });
+
+	var isLoading = false
+	$scope.refresh = function() {
+		if (isLoading) {
+			return
+		}
+		isLoading = true
+		$ionicLoading.show({
+			template: '求其一等...'
+        });
+		PostService.getTwenty((new Date()).getTime()).then(function(data) {
+			$scope.posts = [];
+			data.map(function(item){
+				item.created_at_from_now = moment(new Date(item.created_at)).fromNow();
+				$scope.posts.push(item)
+	        });
+	        isLoading = false
+	        $ionicLoading.hide();
+		}, function(error) {
+			$ionicLoading.show({
+				template: '网络错误...'
+	        });
+	        isLoading = false
+	        setTimeout(function() {
+				$ionicLoading.hide();
+	        }, 3000);
+		});
+		if ($rootScope.user) {
+			PostService.getNewComment().then(function(data) {
+				if (data) {
+					$scope.newComments = data.comments;
+					$rootScope.momentBadge = data.comments.length;
+				}
+			}, function(error) {});
+		}
+	}
 
 	$scope.getNew = function() {
 		$ionicLoading.show({
@@ -42,9 +102,17 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	         	$scope.posts.unshift(item)
 	        })
 			$ionicLoading.hide();
-		}, function(error) {});
+		}, function(error) {
+			$ionicLoading.show({
+				template: '网络错误...'
+	        });
+	        setTimeout(function() {
+				$ionicLoading.hide();
+	        }, 3000);
+		});
 		PostService.getNewComment().then(function(data) {
 			$scope.newComments = data.comments;
+			$rootScope.momentBadge = data.comments.length;
 		}, function(error) {});
 	}
 
@@ -54,41 +122,51 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 		}, function(error) {});
 	}
 
+	function loginConfirm() {
+		$ionicPopup.show({
+			template: '<p>只有登录后，老少爷们才知道是你发哩状态呀!</p>',
+			title: '登录后才能发到梁山圈',
+			subTitle: '登录请求',
+			scope: $scope,
+			buttons: [
+				{ text: '算啦！' },
+				{
+					text: '<b>去登录！</b>',
+					type: 'button-positive',
+					onTap: function(e) {
+						$state.go('signin');
+					}
+				}
+			]
+		});
+	}
+
 	$scope.createPost = function() {
 		if ($rootScope.isLoggedIn) {
 			$state.go('tab.moment-create');
 		} else {
-			var myPopup = $ionicPopup.show({
-				template: '<p>只有登录后，老少爷们才知道是你发哩状态呀!</p>',
-				title: '登录后才能发到梁山圈',
-				subTitle: '登录请求',
-				scope: $scope,
-				buttons: [
-					{ text: '算啦！' },
-					{
-						text: '<b>去登录！</b>',
-						type: 'button-positive',
-						onTap: function(e) {
-							$state.go('signin');
-						}
-					}
-				]
-			});
+			loginConfirm();
 		}
 	}
 
 	$scope.addLike = function(post) {
-		if (objectInArray(post.likes, 'from._id', $rootScope.user._id)) return;
-		PostService.like(post).then(function(data) {
-			post.likes.push({
-				from: {
-					_id: $rootScope.user._id,
-					username: $rootScope.user.username,
-					nickname: $rootScope.user.nickname,
-					face: $rootScope.face
-				}
-			});
-		}, function(err) {});
+		if ($rootScope.isLoggedIn) {
+			if (objectInArray(post.likes, 'from._id', $rootScope.user._id)) return;
+			PostService.like(post).then(function(data) {
+				post.likes.push({
+					from: {
+						_id: $rootScope.user._id,
+						username: $rootScope.user.username,
+						nickname: $rootScope.user.nickname,
+						face: $rootScope.face
+					}
+				});
+			}, function(err) {});
+		} else {
+			loginConfirm();
+		}
+
+
 	};
 
 	$scope.toggleComments = function(post) {
@@ -96,24 +174,28 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	};
 
 	$scope.addComment = function(post) {
-		if(post.newComment && post.newComment.content && post.newComment.content.split(':')[1] != ' ') {
-            if (post.newComment.to && post.newComment.content.split(':')[0] != `@${post.newComment.to.nickname}`) {
-                post.newComment.to = null
-            }
-            PostService.comment(post).then(function(data) {
-                post.comments.push({
-                    from: {
-                        _id: $rootScope.user._id,
-                        username: $rootScope.user.username,
-                        nickname: $rootScope.user.nickname,
-                        face: $rootScope.user.face
-                    },
-                    to: post.newComment.to || null,
-                    text: post.newComment.content
-                });
-                post.newComment = null;
-            }, function(err) {});
-        }
+		if ($rootScope.isLoggedIn) {
+			if(post.newComment && post.newComment.content && post.newComment.content.split(':')[1] != ' ') {
+	            if (post.newComment.to && post.newComment.content.split(':')[0] != `@${post.newComment.to.nickname}`) {
+	                post.newComment.to = null
+	            }
+	            PostService.comment(post).then(function(data) {
+	                post.comments.push({
+	                    from: {
+	                        _id: $rootScope.user._id,
+	                        username: $rootScope.user.username,
+	                        nickname: $rootScope.user.nickname,
+	                        face: $rootScope.user.face
+	                    },
+	                    to: post.newComment.to || null,
+	                    text: post.newComment.content
+	                });
+	                post.newComment = null;
+	            }, function(err) {});
+	        }
+		} else {
+			loginConfirm();
+		}
 	};
 
 	$scope.replyComment = function(post, comment) {
@@ -125,10 +207,36 @@ app.controller('MomentCtrl', function($scope, $rootScope, $state, $stateParams, 
 	}
 
 	$scope.openNewComments = function() {
+		$rootScope.momentBadge = 0;
 		$scope.newComments = [];
 		PostService.removeNewComment();
 		$state.go('tab.moment-comment');
 	};
+
+	$scope.openUserMoments = function(user) {
+		$state.go('tab.moment-userMoment', {uid: user._id, title: user.nickname || user.username});
+	}
+
+	$scope.removeMoment = function(post) {
+		$ionicPopup.show({
+			template: '<p>你真想删除呗？</p>',
+			title: '请确认',
+			scope: $scope,
+			buttons: [
+				{
+					text: '按错啦！',
+					type: 'button-positive',
+				},
+				{
+					text: '<b>删啦！</b>',
+					onTap: function(e) {
+						_.remove($scope.posts, post)
+						PostService.removeById(post._id)
+					}
+				}
+			]
+		});
+	}
 
 	var addAttribute = function(data) {
 		for (var i = 0; i < data.length; i++) {

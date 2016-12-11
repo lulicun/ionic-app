@@ -132,6 +132,10 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
     }
     $scope.report = {}
     $scope.report = function(poster) {
+        if(!$rootScope.user) {
+            loginConfirm()
+            return
+        }
         $ionicPopup.show({
             template: "<p>请填写举报内容:</p><textarea ng-model='report.content' rows='4' cols='50'/>",
             title: '举报',
@@ -147,6 +151,14 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
                         UserService.report({
                             defendant: poster._id,
                             content: $scope.report.content
+                        }).then(function(data) {
+                            $scope.report.content = null
+                            $ionicPopup.alert({
+                                title: '感谢您的举报!',
+                                template: '我们会尽快处理，谢谢！'
+                            })
+                        }, function(err) {
+                            $scope.report.content = null
                         })
                     }
                 }

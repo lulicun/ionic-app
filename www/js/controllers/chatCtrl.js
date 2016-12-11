@@ -16,9 +16,12 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
       if ($rootScope.user) {
         ChatService.getChatsByUid($rootScope.user._id).then(function(data) {
           $rootScope.chats = data
-        }, function(error) {
-
-        })
+        }, function(error) {})
+        ChatService.getUnreadChatsByUid($rootScope.user._id).then(function(data) {
+          if (data) {
+            $rootScope.chatBadge = data.length
+          }
+        }, function(err){})
       } else {
         $rootScope.chats = []
       }
@@ -26,6 +29,9 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
   });
 
   $scope.openChatDetails = function(chat) {
+    if (chat.unread_by.indexOf($rootScope.user._id) > -1) {
+      $rootScope.chatBadge = $rootScope.chatBadge-1;
+    }
     chat.unread_by = []
     $state.go('tab.chat-detail', {chatId: chat._id})
   }
@@ -34,4 +40,18 @@ app.controller('ChatsCtrl', function($scope, $state, $stateParams, $rootScope, C
     _.remove($scope.chats, chat)
     ChatService.removeChatByCid(chat._id);
   };
+
+  $scope.block = function(chat, $event) {
+    $event.stopPropagation()
+    ChatService.blockChat(chat._id, true).then(function(data) {
+      chat.blocked_by = [$rootScope.user._id]
+    }, function(err) {})
+  }
+
+  $scope.unblock = function(chat, $event) {
+    $event.stopPropagation()
+    ChatService.blockChat(chat._id, false).then(function(data) {
+      chat.blocked_by = []
+    }, function(err) {})
+  }
 })

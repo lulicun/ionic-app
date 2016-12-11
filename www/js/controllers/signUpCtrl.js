@@ -1,10 +1,12 @@
 'use strict';
 
-app.controller('SignUpCtrl', function($scope, $rootScope, $state, $ionicLoading, UserService) {
+app.controller('SignUpCtrl', function($scope, $rootScope, $state, $ionicLoading, $ionicPopup, UserService) {
     //Didsplay back button
     $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
         viewData.enableBack = true;
     });
+
+    $scope.readAndAgree = true
 
     $scope.signUp = function(user) {
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -38,5 +40,41 @@ app.controller('SignUpCtrl', function($scope, $rootScope, $state, $ionicLoading,
             $ionicLoading.hide();
         });
     };
+
+    $scope.serviceTerms = function() {
+        var myPopup = $ionicPopup.show({
+            templateUrl: '../templates/service-terms.html',
+            title: '梁山圈软件服务协议',
+            subTitle: '',
+            scope: $scope,
+            buttons: [
+              { text: '关闭' }
+            ]
+        });
+    }
+
+    $scope.privacyPolice = function() {
+        var myPopup = $ionicPopup.show({
+            templateUrl: '../templates/privacy-police.html',
+            title: '梁山圈隐私政策',
+            subTitle: '',
+            scope: $scope,
+            buttons: [
+              { text: '关闭' }
+            ]
+        });
+    }
+
+    $scope.usageRules = function() {
+        var myPopup = $ionicPopup.show({
+            templateUrl: '../templates/usage-rules.html',
+            title: '梁山圈个人帐号使用规范',
+            subTitle: '',
+            scope: $scope,
+            buttons: [
+              { text: '关闭' }
+            ]
+        });
+    }
 
 })

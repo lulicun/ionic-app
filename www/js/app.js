@@ -1,7 +1,7 @@
 // Ionic Starter App
 app = angular.module('ionic-app', ['ionic', 'ion-gallery', 'ngCordova'])
 
-app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, DeviceService) {
+app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, DeviceService, ChatService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -16,6 +16,14 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
     }
 
     ionic.Platform.fullScreen();
+
+    if ($rootScope.user) {
+      ChatService.getUnreadChatsByUid($rootScope.user._id).then(function(data) {
+        if (data) {
+          $rootScope.chatBadge = data.length
+        }
+      }, function(err){})
+    }
   });
 
   document.addEventListener("deviceready", function(){
@@ -73,6 +81,15 @@ app.run(function($ionicPlatform, $rootScope, $cordovaPush, $localStorage, Device
       if ($rootScope.pushNotification) {
         $rootScope.pushNotification.setApplicationIconBadgeNumber(function() {}, function() {}, 0);
       }
+
+      if ($rootScope.user) {
+        ChatService.getUnreadChatsByUid($rootScope.user._id).then(function(data) {
+          if (data) {
+            $rootScope.chatBadge = data.length
+          }
+        }, function(err){})
+      }
+
       $rootScope.$broadcast('onResume');
   }, false);
 

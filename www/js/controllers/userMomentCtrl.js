@@ -1,6 +1,6 @@
 'use strict'
 
-app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $stateParams, $ionicPopup, PostService, ChatService) {
+app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $stateParams, $ionicPopup, PostService, ChatService, UserService) {
     $scope.posts = []
 
     $scope.title = $stateParams.title
@@ -129,5 +129,40 @@ app.controller('UserMomentCtrl', function($scope, $state, $rootScope, $statePara
             if(_.get(arr[i], attr) == val) return true;
         }
         return false;
+    }
+    $scope.report = {}
+    $scope.report = function(poster) {
+        if(!$rootScope.user) {
+            loginConfirm()
+            return
+        }
+        $ionicPopup.show({
+            template: "<p>请填写举报内容:</p><textarea ng-model='report.content' rows='4' cols='50'/>",
+            title: '举报',
+            scope: $scope,
+            buttons: [
+                {
+                    text: '按错啦！',
+                    type: 'button-positive',
+                },
+                {
+                    text: '<b>举报</b>',
+                    onTap: function(e) {
+                        UserService.report({
+                            defendant: poster._id,
+                            content: $scope.report.content
+                        }).then(function(data) {
+                            $scope.report.content = null
+                            $ionicPopup.alert({
+                                title: '感谢您的举报!',
+                                template: '我们会尽快处理，谢谢！'
+                            })
+                        }, function(err) {
+                            $scope.report.content = null
+                        })
+                    }
+                }
+            ]
+        });
     }
 })
